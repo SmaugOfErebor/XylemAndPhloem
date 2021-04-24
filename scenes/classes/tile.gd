@@ -24,3 +24,6 @@ func get_descendant_tile_count() -> int:
 		descendantCount += outgoingConnection.toTile.get_descendant_tile_count()
 	
 	return descendantCount
+
+func hasConnections():
+	return incomingConnection != null or outgoingConnections.size() > 0
