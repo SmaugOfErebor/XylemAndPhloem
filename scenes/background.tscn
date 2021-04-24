@@ -80,36 +80,36 @@ centered = false
 
 [node name="tile_select_highlight" type="Sprite" parent="root_2d/tiles"]
 visible = false
-self_modulate = Color( 1, 0.0196078, 0.0196078, 1 )
+self_modulate = Color( 0.0196078, 1, 0.929412, 1 )
 texture = ExtResource( 5 )
 centered = false
 
-[node name="selectable" type="Sprite" parent="root_2d/tiles/tile_select_highlight"]
+[node name="ct" type="Sprite" parent="root_2d/tiles/tile_select_highlight"]
 position = Vector2( 0, -50 )
 texture = ExtResource( 5 )
 centered = false
 
-[node name="selectable2" type="Sprite" parent="root_2d/tiles/tile_select_highlight"]
+[node name="rt" type="Sprite" parent="root_2d/tiles/tile_select_highlight"]
 position = Vector2( 44, -26 )
 texture = ExtResource( 5 )
 centered = false
 
-[node name="selectable3" type="Sprite" parent="root_2d/tiles/tile_select_highlight"]
+[node name="rb" type="Sprite" parent="root_2d/tiles/tile_select_highlight"]
 position = Vector2( 44, 24 )
 texture = ExtResource( 5 )
 centered = false
 
-[node name="selectable4" type="Sprite" parent="root_2d/tiles/tile_select_highlight"]
+[node name="cb" type="Sprite" parent="root_2d/tiles/tile_select_highlight"]
 position = Vector2( 0, 50 )
 texture = ExtResource( 5 )
 centered = false
 
-[node name="selectable5" type="Sprite" parent="root_2d/tiles/tile_select_highlight"]
+[node name="lb" type="Sprite" parent="root_2d/tiles/tile_select_highlight"]
 position = Vector2( -44, 25 )
 texture = ExtResource( 5 )
 centered = false
 
-[node name="selectable6" type="Sprite" parent="root_2d/tiles/tile_select_highlight"]
+[node name="lt" type="Sprite" parent="root_2d/tiles/tile_select_highlight"]
 position = Vector2( -44, -25 )
 texture = ExtResource( 5 )
 centered = false

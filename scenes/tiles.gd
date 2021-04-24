@@ -20,6 +20,12 @@ signal tile_pressed(tile)
 
 onready var tileHighlight: Sprite = $tile_highlight
 onready var tileSelectHighlight: Sprite = $tile_select_highlight
+onready var ct: Sprite = $tile_select_highlight/ct
+onready var cb: Sprite = $tile_select_highlight/cb
+onready var lt: Sprite = $tile_select_highlight/lt
+onready var lb: Sprite = $tile_select_highlight/lb
+onready var rt: Sprite = $tile_select_highlight/rt
+onready var rb: Sprite = $tile_select_highlight/rb
 
 var tileData := {}
 
@@ -47,9 +53,8 @@ func tilePressed(tile: Tile):
 		# Make sure the tile has a connection
 		if tile.hasConnections():
 			# Select a from tile
-			selectedFromTile = tile
-			tileSelectHighlight.position = getPixelPosition(selectedFromTile)
-			tileSelectHighlight.visible = true
+			if setTileSelectHighlight(tile):
+				selectedFromTile = tile
 	else:
 		# This is the user's "to" tile selection
 		# First, make sure it's on the same level
@@ -78,21 +83,48 @@ func addChildTileConnection(fromTile: Tile, toTile: Tile, tileType: int):
 	fromTile.outgoingConnections.append(newConnection)
 	toTile.incomingConnection = newConnection
 
+func isSelectableNeighbor(tile: Tile, neighbor: Tile) -> bool:
+	if neighbor == null:
+		return false
+	return sign(tile.position.y) == sign(neighbor.position.y) and not neighbor.hasConnections()
+
+func setTileSelectHighlight(tile: Tile) -> bool:
+	var neighbors = getNeighborTiles(tile, true)
+	ct.visible = isSelectableNeighbor(tile, neighbors[2])
+	cb.visible = isSelectableNeighbor(tile, neighbors[3])
+	if (tile.position.x as int) % 2 == 0:
+		lb.visible = isSelectableNeighbor(tile, neighbors[0])
+		rb.visible = isSelectableNeighbor(tile, neighbors[1])
+		lt.visible = isSelectableNeighbor(tile, neighbors[4])
+		rt.visible = isSelectableNeighbor(tile, neighbors[5])
+	else:
+		lt.visible = isSelectableNeighbor(tile, neighbors[0])
+		rt.visible = isSelectableNeighbor(tile, neighbors[1])
+		lb.visible = isSelectableNeighbor(tile, neighbors[4])
+		rb.visible = isSelectableNeighbor(tile, neighbors[5])
+	if ct.visible or cb.visible or lb.visible or lt.visible or rb.visible or rt.visible:
+		tileSelectHighlight.position = getPixelPosition(tile)
+		tileSelectHighlight.visible = true
+		return true
+	else:
+		tileSelectHighlight.visible = false
+		return false
+
 # Gets all neighbor tiles
-func getNeighborTiles(tile: Tile) -> Array:
+func getNeighborTiles(tile: Tile, allowNulls: bool = false) -> Array:
 	var ret := []
 	var a: Tile = getTile(tile.position + Vector2(-1, 0))
-	if a: ret.append(a)
+	if a or allowNulls: ret.append(a)
 	a = getTile(tile.position + Vector2(1, 0))
-	if a: ret.append(a)
+	if a or allowNulls: ret.append(a)
 	a = getTile(tile.position + Vector2(0, -1))
-	if a: ret.append(a)
+	if a or allowNulls: ret.append(a)
 	a = getTile(tile.position + Vector2(0, 1))
-	if a: ret.append(a)
+	if a or allowNulls: ret.append(a)
 	a = getTile(tile.position + Vector2(-1, -1 if (tile.position.x as int) % 2 == 0 else 1))
-	if a: ret.append(a)
+	if a or allowNulls: ret.append(a)
 	a = getTile(tile.position + Vector2(1, -1 if (tile.position.x as int) % 2 == 0 else 1))
-	if a: ret.append(a)
+	if a or allowNulls: ret.append(a)
 	return ret
 	
 # Add a tile to the map and data class
