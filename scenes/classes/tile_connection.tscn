@@ -3,5 +3,5 @@
 [ext_resource path="res://scenes/classes/tile_connection.gd" type="Script" id=1]
 
 [node name="Node2D" type="Line2D"]
-points = PoolVector2Array( 0, 0, 0, 0 )
+default_color = Color( 0.882353, 0.670588, 0.470588, 1 )
 script = ExtResource( 1 )

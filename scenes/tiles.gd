@@ -8,7 +8,8 @@ enum TileId {
 	ROCK,
 	SHADOW,
 	SUNLIGHT,
-	WATER
+	WATER,
+	TRANSPARENT
 }
 
 # Signal for when the user presses a tile
@@ -18,9 +19,17 @@ onready var tileHighlight: Sprite = $tile_highlight
 
 var tileData := {}
 
+var playerGameTree: GameTree
+var computerGameTree: GameTree
+
 func _ready():
 	# Generate temporary map
 	tempGenerate()
+	# Add the player and computer trees
+	playerGameTree = GameTree.new(Vector2(3, -1))
+	computerGameTree = GameTree.new(Vector2(19, -1))
+	add_child(playerGameTree)
+	add_child(computerGameTree)
 	
 # Add a tile to the map and data class
 func addTile(tileId: int, position: Vector2):
@@ -43,11 +52,8 @@ func _input(event):
 		if not tile:
 			tileHighlight.visible = false
 			return
-		# Because of the offset tilemap, we need to adjust each odd column by half
-		if (tilePos.x as int) % 2 == 1:
-			tilePos.y += 0.5
 		# Draw the highlight at the given tile position
-		tileHighlight.position = tilePos * TILE_SIZE
+		tileHighlight.position = getPixelPosition(tile)
 		tileHighlight.visible = true
 	elif (event is InputEventMouseButton or event is InputEventScreenTouch) and event.is_pressed():
 		# The user pressed on a tile (possibly)
@@ -63,13 +69,32 @@ func _input(event):
 		if tile:
 			emit_signal("tile_pressed", tile)
 			print("TILE PRESSED")
-		
+
+func getPixelPosition(tile: Tile) -> Vector2:
+	var pixelPosition: Vector2
+	pixelPosition.x = tile.position.x * TILE_SIZE.x
+	pixelPosition.y = tile.position.y * TILE_SIZE.y
+	# Because of the offset tilemap, we need to adjust each odd column by half
+	if (tile.position.x as int) % 2 == 1:
+		pixelPosition.y += TILE_SIZE.y / 2
+	return pixelPosition
+
+func getCenterPixelPosition(tile: Tile) -> Vector2:
+	var centerPixelPosition: Vector2 = getPixelPosition(tile)
+	centerPixelPosition.x += TILE_SIZE.x / 2
+	centerPixelPosition.x += 7
+	centerPixelPosition.y += TILE_SIZE.y / 2
+	return centerPixelPosition
+
 func tempGenerate():
 	# Iterate through the basic visual range
 	for y in range(-10, 10):
 		for x in range(0, 23):
 			# Remove the middle row of tiles on ground
 			if y == -1 and x % 2 == 1:
+				if x == 3 || x == 19:
+					# Add transparent tiles to hold the starting trees
+					addTile(TileId.TRANSPARENT, Vector2(x, y))
 				continue
 			# Generate sun if on top, dirt if bottom
 			var tileId: int = TileId.DIRT if y >= 0 else TileId.SUNLIGHT
