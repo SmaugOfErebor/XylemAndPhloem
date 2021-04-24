@@ -3,15 +3,8 @@ extends TileMap
 # This corresponds to tile IDs in tileset
 const TILE_SIZE := Vector2(44, 50)
 const SCREEN_TILE_WIDTH: int = 23
-enum TileId {
-	DIRT,
-	ENRICHED_DIRT,
-	ROCK,
-	SHADOW,
-	SUNLIGHT,
-	WATER,
-	TRANSPARENT
-}
+const HIGHLIGHT_COLOR_BUYABLE := Color.green
+const HIGHLIGHT_COLOR_NOT_BUYABLE := Color.red
 
 var selectedFromTile: Tile = null
 
@@ -51,10 +44,7 @@ func tilePressed(tile: Tile):
 	# Check which
 	if selectedFromTile == null:
 		# Make sure the tile has a connection
-		if tile.hasConnections() and tile.tileId != TileId.TRANSPARENT:
-			# Select a from tile
-			if setTileSelectHighlight(tile):
-				selectedFromTile = tile
+		selectedFromTile = tile
 	else:
 		# This is the user's "to" tile selection
 		# First, make sure it's on the same level
@@ -77,32 +67,56 @@ func tilePressed(tile: Tile):
 		selectedFromTile = null
 		tileSelectHighlight.visible = false
 
+func _physics_process(delta):
+	if selectedFromTile:
+		if selectedFromTile.hasConnections() and selectedFromTile.tileId != Globals.TID_TRANSPARENT:
+			# Select a from tile
+			if not setTileSelectHighlight(selectedFromTile):
+				selectedFromTile = null
+		else:
+			selectedFromTile = null
+
 func addChildTileConnection(fromTile: Tile, toTile: Tile, tileType: int):
 	var newConnection := TileConnection.new(fromTile, toTile, tileType)
 	add_child(newConnection)
 	fromTile.outgoingConnections.append(newConnection)
 	toTile.incomingConnection = newConnection
 
-func isSelectableNeighbor(tile: Tile, neighbor: Tile) -> bool:
+func calculateCost(from: Tile, to: Tile) -> int:
+	 return to.getBaseCost() + (from.getLengthFromHere() / 3)
+
+func showSelectableNeighbor(highlight: Sprite, tile: Tile, neighbor: Tile):
+	# Start as not selectable
+	highlight.visible = false
+	# Check if selectable
 	if neighbor == null:
-		return false
-	var valid: bool = Utils.mySign(tile.position.y) == Utils.mySign(neighbor.position.y) and not neighbor.hasConnections()
-	return valid
+		return
+	if not (Utils.mySign(tile.position.y) == Utils.mySign(neighbor.position.y) and not neighbor.hasConnections()):
+		return
+	# It is selectable; see if they have enough $ to buy it
+	var cost: int = calculateCost(tile, neighbor)
+	highlight.find_node("CostLabel").text = str(cost)
+	if playerGameTree.getSpendableAsInt() >= cost:
+		highlight.modulate = HIGHLIGHT_COLOR_BUYABLE
+	else:
+		highlight.modulate = HIGHLIGHT_COLOR_NOT_BUYABLE
+	highlight.visible = true
 
 func setTileSelectHighlight(tile: Tile) -> bool:
 	var neighbors = getNeighborTiles(tile, true)
-	ct.visible = isSelectableNeighbor(tile, neighbors[2])
-	cb.visible = isSelectableNeighbor(tile, neighbors[3])
+	showSelectableNeighbor(ct, tile, neighbors[2])
+	showSelectableNeighbor(cb, tile, neighbors[3])
 	if (tile.position.x as int) % 2 == 0:
-		lb.visible = isSelectableNeighbor(tile, neighbors[0])
-		rb.visible = isSelectableNeighbor(tile, neighbors[1])
-		lt.visible = isSelectableNeighbor(tile, neighbors[4])
-		rt.visible = isSelectableNeighbor(tile, neighbors[5])
+		showSelectableNeighbor(lb, tile, neighbors[0])
+		showSelectableNeighbor(rb, tile, neighbors[1])
+		showSelectableNeighbor(lt, tile, neighbors[4])
+		showSelectableNeighbor(rt, tile, neighbors[5])
 	else:
-		lt.visible = isSelectableNeighbor(tile, neighbors[0])
-		rt.visible = isSelectableNeighbor(tile, neighbors[1])
-		lb.visible = isSelectableNeighbor(tile, neighbors[4])
-		rb.visible = isSelectableNeighbor(tile, neighbors[5])
+		showSelectableNeighbor(lt, tile, neighbors[0])
+		showSelectableNeighbor(rt, tile, neighbors[1])
+		showSelectableNeighbor(lb, tile, neighbors[4])
+		showSelectableNeighbor(rb, tile, neighbors[5])
+	
 	if ct.visible or cb.visible or lb.visible or lt.visible or rb.visible or rt.visible:
 		tileSelectHighlight.position = getPixelPosition(tile)
 		tileSelectHighlight.visible = true
@@ -191,19 +205,19 @@ func tempGenerate():
 			if y == -1 and x % 2 == 1:
 				if x == 3 || x == 19:
 					# Add transparent tiles to hold the starting trees
-					addTile(TileId.TRANSPARENT, Vector2(x, y))
+					addTile(Globals.TID_TRANSPARENT, Vector2(x, y))
 				continue
 
 			if y < 0:
 				# Above ground
-				addTile(TileId.SUNLIGHT, Vector2(x, y))
+				addTile(Globals.TID_SUNLIGHT, Vector2(x, y))
 			else:
 				# Below ground
-				addTile(TileId.DIRT, Vector2(x, y))
+				addTile(Globals.TID_DIRT, Vector2(x, y))
 
-	generatePockets(TileId.WATER, 5, 8, 0, SCREEN_TILE_WIDTH-1, 4, 9, 1, 2)
-	generatePockets(TileId.ENRICHED_DIRT, 6, 8, 0, SCREEN_TILE_WIDTH-1, 1, 9, 1, 3)
-	generatePockets(TileId.ROCK, 2, 3, 0, SCREEN_TILE_WIDTH-1, 4, 7, 1, 1)
+	generatePockets(Globals.TID_WATER, 5, 8, 0, SCREEN_TILE_WIDTH-1, 4, 9, 1, 2)
+	generatePockets(Globals.TID_ENRICHED_DIRT, 6, 8, 0, SCREEN_TILE_WIDTH-1, 1, 9, 1, 3)
+	generatePockets(Globals.TID_ROCK, 2, 3, 0, SCREEN_TILE_WIDTH-1, 4, 7, 1, 1)
 
 func generatePockets(tileId: int, 
 					minPockets: int, maxPockets: int,

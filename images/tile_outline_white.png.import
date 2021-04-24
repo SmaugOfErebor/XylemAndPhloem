@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tile_highlight_good.png-f9d08db8ea041fe5012ec521790cd7a6.stex"
+path="res://.import/tile_outline_white.png-4af9bf2ec03f4fcf5d748edde2ef1f25.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/tile_highlight_good.png"
-dest_files=[ "res://.import/tile_highlight_good.png-f9d08db8ea041fe5012ec521790cd7a6.stex" ]
+source_file="res://images/tile_outline_white.png"
+dest_files=[ "res://.import/tile_outline_white.png-4af9bf2ec03f4fcf5d748edde2ef1f25.stex" ]
 
 [params]
 

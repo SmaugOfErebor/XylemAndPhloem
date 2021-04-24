@@ -33,6 +33,9 @@ func _init(tileMapPosition: Vector2):
 	tileMap.addChildTileConnection(seedTile, rootTile, 1)
 
 func _process(delta):
+	# Check due to division
+	if delta <= 0:
+		return
 	# Collect unspendable currency based on the number of roots the tree has
 	unspendablePerSec = get_total_roots() * UNSPENDABLE_CURRENCY_RATE
 	unspendableCurrency += unspendablePerSec * delta
@@ -56,7 +59,7 @@ func get_total_sunlight() -> float:
 
 func get_total_leaves() -> int:
 	# TODO: Get total leaves that are receiving sunlight
-	return 5
+	return 500
 
 func getSpendableAsInt() -> int:
 	return floor(spendableCurrency) as int

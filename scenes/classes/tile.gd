@@ -25,5 +25,15 @@ func get_descendant_tile_count() -> int:
 	
 	return descendantCount
 
+func getLengthFromHere() -> int:
+	if incomingConnection == null:
+		return 0
+	return 1 + incomingConnection.fromTile.getLengthFromHere()
+
 func hasConnections():
 	return incomingConnection != null or outgoingConnections.size() > 0
+
+func getBaseCost() -> int:
+	if tileId == Globals.TID_ROCK:
+		return 10
+	return 5
