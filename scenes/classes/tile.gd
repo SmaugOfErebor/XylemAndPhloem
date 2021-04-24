@@ -15,3 +15,6 @@ func remove_connections():
 	for outgoingConnection in outgoingConnections:
 		outgoingConnection.toTile.remove_connections()
 	outgoingConnections = []
+
+func hasConnections():
+	return incomingConnection != null or outgoingConnections.size() > 0
