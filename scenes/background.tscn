@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://resources/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://scenes/root_2d.gd" type="Script" id=2]
 [ext_resource path="res://scenes/camera.gd" type="Script" id=3]
 [ext_resource path="res://scenes/tiles.gd" type="Script" id=4]
+[ext_resource path="res://images/tile_highlight_good.png" type="Texture" id=5]
 
 [node name="root_node" type="Node"]
 
@@ -57,3 +58,9 @@ cell_size = Vector2( 44, 50 )
 cell_half_offset = 1
 format = 1
 script = ExtResource( 4 )
+
+[node name="tile_highlight" type="Sprite" parent="root_2d/tiles"]
+visible = false
+position = Vector2( 11, -489 )
+texture = ExtResource( 5 )
+centered = false
