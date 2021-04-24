@@ -1,10 +1,24 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://resources/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://scenes/root_2d.gd" type="Script" id=2]
 [ext_resource path="res://scenes/camera.gd" type="Script" id=3]
 [ext_resource path="res://scenes/tiles.gd" type="Script" id=4]
 [ext_resource path="res://images/tile_highlight_good.png" type="Texture" id=5]
+[ext_resource path="res://scenes/currency_display.gd" type="Script" id=6]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0, 0, 0, 0.505882 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 20
 
 [node name="root_node" type="Node"]
 
@@ -64,3 +78,42 @@ visible = false
 position = Vector2( 11, -489 )
 texture = ExtResource( 5 )
 centered = false
+
+[node name="fg" type="CanvasLayer" parent="."]
+
+[node name="currency_display" type="PanelContainer" parent="fg"]
+anchor_right = 0.25
+anchor_bottom = 0.08
+margin_left = 5.0
+margin_top = 5.0
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridContainer" type="GridContainer" parent="fg/currency_display"]
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 250.0
+margin_bottom = 42.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="spendable_currency" type="RichTextLabel" parent="fg/currency_display/GridContainer"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 249.0
+margin_bottom = 18.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Spendable Currency: "
+
+[node name="unspendable_currency" type="RichTextLabel" parent="fg/currency_display/GridContainer"]
+margin_left = 5.0
+margin_top = 22.0
+margin_right = 249.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Unspendable Currency: "
