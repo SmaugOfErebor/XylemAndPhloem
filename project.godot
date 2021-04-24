@@ -18,10 +18,16 @@ _global_script_classes=[ {
 "class": "Root2D",
 "language": "GDScript",
 "path": "res://scenes/root_2d.gd"
+}, {
+"base": "Reference",
+"class": "Tile",
+"language": "GDScript",
+"path": "res://scenes/classes/tile.gd"
 } ]
 _global_script_class_icons={
 "GameCam": "",
-"Root2D": ""
+"Root2D": "",
+"Tile": ""
 }
 
 [application]

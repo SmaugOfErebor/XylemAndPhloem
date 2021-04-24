@@ -10,8 +10,20 @@ enum TileId {
 	WATER
 }
 
+var tileData := {}
+
 func _ready():
 	tempGenerate()
+	
+func addTile(tileId: int, position: Vector2):
+	var tile: Tile = Tile.new(tileId, position)
+	set_cellv(tile.position, tile.tileId)
+	tileData[tile.position] = tile
+	
+func getTile(position: Vector2) -> Tile:
+	if tileData.has(position):
+		return tileData[position]
+	return null
 	
 func tempGenerate():
 	# Iterate through the basic visual range
@@ -22,4 +34,4 @@ func tempGenerate():
 				continue
 			# Generate sun if on top, dirt if bottom
 			var tileId: int = TileId.DIRT if y >= 0 else TileId.SUNLIGHT
-			set_cellv(Vector2(x, y), tileId)
+			addTile(tileId, Vector2(x, y))
