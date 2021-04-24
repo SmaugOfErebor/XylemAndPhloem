@@ -48,14 +48,14 @@ func _process(delta):
 		unspendableCurrency -= maximumConvertedCurrency
 
 func get_total_roots() -> int:
-	#TODO: Return the actual total roots
-	return 5
+	# Add one to account for the first root
+	return rootTile.get_descendant_tile_count() + 1
 
 func get_total_sunlight() -> float:
 	return get_total_leaves() * Globals.get_tiles().sunlightIntensity * LEAF_STRENGTH
 
 func get_total_leaves() -> int:
-	#TODO: Return the actual total leaves
+	# TODO: Get total leaves that are receiving sunlight
 	return 5
 
 func getSpendableAsInt() -> int:
