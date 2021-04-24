@@ -16,5 +16,14 @@ func remove_connections():
 		outgoingConnection.toTile.remove_connections()
 	outgoingConnections = []
 
+func get_descendant_tile_count() -> int:
+	# Start with immediate children
+	var descendantCount: int = outgoingConnections.size()
+	# Add descendants of children
+	for outgoingConnection in outgoingConnections:
+		descendantCount += outgoingConnection.toTile.get_descendant_tile_count()
+	
+	return descendantCount
+
 func hasConnections():
 	return incomingConnection != null or outgoingConnections.size() > 0
