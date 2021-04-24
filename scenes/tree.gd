@@ -33,6 +33,8 @@ func _init(tileMapPosition: Vector2):
 	tileMap.addChildTileConnection(seedTile, rootTile, 1)
 
 func _process(delta):
+	if delta == 0: pass
+		
 	# Collect unspendable currency based on the number of roots the tree has
 	unspendablePerSec = get_total_roots() * UNSPENDABLE_CURRENCY_RATE
 	unspendableCurrency += unspendablePerSec * delta
