@@ -61,3 +61,9 @@ func get_total_sunlight() -> float:
 func get_total_leaves() -> int:
 	#TODO: Return the actual total leaves
 	return 5
+
+func getSpendableAsInt() -> int:
+	return floor(spendableCurrency) as int
+	
+func getUnspendableAsInt() -> int:
+	return floor(unspendableCurrency) as int
