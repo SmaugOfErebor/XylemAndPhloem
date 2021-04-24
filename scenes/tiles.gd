@@ -44,25 +44,30 @@ func _ready():
 func tilePressed(tile: Tile):
 	# Check which
 	if selectedFromTile == null:
-		# Select a from tile
-		selectedFromTile = tile
-		tileSelectHighlight.position = getPixelPosition(selectedFromTile)
-		tileSelectHighlight.visible = true
+		# Make sure the tile has a connection
+		if tile.hasConnections():
+			# Select a from tile
+			selectedFromTile = tile
+			tileSelectHighlight.position = getPixelPosition(selectedFromTile)
+			tileSelectHighlight.visible = true
 	else:
 		# This is the user's "to" tile selection
 		# First, make sure it's on the same level
 		if (selectedFromTile.position.y < 0 and tile.position.y < 0) or (selectedFromTile.position.y >= 0 and tile.position.y >= 0):
-			# Get all tile neighbors
-			var neighborTiles = getNeighborTiles(tile)
-			# If a connection can be made from a neighbor, make it
-			for neighbor in neighborTiles:
-				if neighbor == selectedFromTile:
-					# Can make a valid connection
-					addChildTileConnection(selectedFromTile, tile, 0 if selectedFromTile.position.y < 0 else 1)
-					# Clear selection
-					selectedFromTile = null
-					tileSelectHighlight.visible = false
-					return
+			# And make sure it's still valid (has connections still)
+			if selectedFromTile.hasConnections():
+				# Get all tile neighbors
+				var neighborTiles = getNeighborTiles(tile)
+				# If a connection can be made from a neighbor, make it
+				for neighbor in neighborTiles:
+					if neighbor == selectedFromTile:
+						# Can make a valid connection (if the to tile has no connections yet)
+						if not tile.hasConnections():
+							addChildTileConnection(selectedFromTile, tile, 0 if selectedFromTile.position.y < 0 else 1)
+							# Clear selection
+							selectedFromTile = null
+							tileSelectHighlight.visible = false
+							return
 		# No valid connection can be made; cancel selection
 		selectedFromTile = null
 		tileSelectHighlight.visible = false
