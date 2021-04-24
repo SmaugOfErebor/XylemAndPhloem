@@ -82,6 +82,10 @@ func addChildTileConnection(fromTile: Tile, toTile: Tile, tileType: int):
 	add_child(newConnection)
 	fromTile.outgoingConnections.append(newConnection)
 	toTile.incomingConnection = newConnection
+	if tileType == 0:
+		newConnection.add_leaf()
+		if fromTile.incomingConnection != null:
+			fromTile.incomingConnection.remove_leaf()
 
 func isSelectableNeighbor(tile: Tile, neighbor: Tile) -> bool:
 	if neighbor == null:
