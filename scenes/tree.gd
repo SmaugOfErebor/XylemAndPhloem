@@ -11,6 +11,8 @@ const LEAF_STRENGTH: float = 0.01
 
 var unspendableCurrency: float = 0.0
 var spendableCurrency: float = 0.0
+var spendablePerSec: float = 0.0
+var unspendablePerSec: float = 0.0
 
 func _init(tileMapPosition: Vector2):
 	self.tileMapPosition = tileMapPosition
@@ -36,13 +38,16 @@ func addTileConnection(tileCon: TileConnection):
 
 func _process(delta):
 	# Collect unspendable currency based on the number of roots the tree has
-	unspendableCurrency += get_total_roots() * UNSPENDABLE_CURRENCY_RATE * delta
+	unspendablePerSec = get_total_roots() * UNSPENDABLE_CURRENCY_RATE
+	unspendableCurrency += unspendablePerSec * delta
 	# Attempt to convert unspendable currency based on total sunlight
 	var maximumConvertedCurrency: float = get_total_sunlight() * delta
 	if maximumConvertedCurrency > unspendableCurrency:
+		spendablePerSec = unspendableCurrency * (1.0 / delta)
 		spendableCurrency += unspendableCurrency
 		unspendableCurrency = 0
 	else:
+		spendablePerSec = maximumConvertedCurrency * (1.0 / delta)
 		spendableCurrency += maximumConvertedCurrency
 		unspendableCurrency -= maximumConvertedCurrency
 
