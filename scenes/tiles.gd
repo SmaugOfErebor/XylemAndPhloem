@@ -13,10 +13,13 @@ enum TileId {
 	TRANSPARENT
 }
 
+var selectedFromTile: Tile = null
+
 # Signal for when the user presses a tile
 signal tile_pressed(tile)
 
 onready var tileHighlight: Sprite = $tile_highlight
+onready var tileSelectHighlight: Sprite = $tile_select_highlight
 
 var tileData := {}
 
@@ -31,6 +34,53 @@ func _ready():
 	computerGameTree = GameTree.new(Vector2(19, -1))
 	add_child(playerGameTree)
 	add_child(computerGameTree)
+	# Listen for tile presses
+	connect("tile_pressed", self, "tilePressed")
+	
+# When the user clicks a tile
+func tilePressed(tile: Tile):
+	# Check which
+	if selectedFromTile == null:
+		# Select a from tile
+		selectedFromTile = tile
+		tileSelectHighlight.position = getPixelPosition(selectedFromTile)
+		tileSelectHighlight.visible = true
+	else:
+		# This is the user's "to" tile selection
+		# First, make sure it's on the same level
+		if (selectedFromTile.position.y < 0 and tile.position.y < 0) or (selectedFromTile.position.y >= 0 and tile.position.y >= 0):
+			# Get all tile neighbors
+			var neighborTiles = getNeighborTiles(tile)
+			# If a connection can be made from a neighbor, make it
+			for neighbor in neighborTiles:
+				if neighbor == selectedFromTile:
+					# Can make a valid connection
+					var tileCon := TileConnection.new(selectedFromTile, tile, 0 if selectedFromTile.position.y < 0 else 1)
+					playerGameTree.addTileConnection(tileCon)
+					# Clear selection
+					selectedFromTile = null
+					tileSelectHighlight.visible = false
+					return
+		# No valid connection can be made; cancel selection
+		selectedFromTile = null
+		tileSelectHighlight.visible = false
+	
+# Gets all neighbor tiles
+func getNeighborTiles(tile: Tile) -> Array:
+	var ret := []
+	var a: Tile = getTile(tile.position + Vector2(-1, 0))
+	if a: ret.append(a)
+	a = getTile(tile.position + Vector2(1, 0))
+	if a: ret.append(a)
+	a = getTile(tile.position + Vector2(0, -1))
+	if a: ret.append(a)
+	a = getTile(tile.position + Vector2(0, 1))
+	if a: ret.append(a)
+	a = getTile(tile.position + Vector2(-1, -1 if (tile.position.x as int) % 2 == 0 else 1))
+	if a: ret.append(a)
+	a = getTile(tile.position + Vector2(1, -1 if (tile.position.x as int) % 2 == 0 else 1))
+	if a: ret.append(a)
+	return ret
 	
 # Add a tile to the map and data class
 func addTile(tileId: int, position: Vector2):
@@ -70,7 +120,6 @@ func _input(event):
 		# If it exists, trigger a tile pressed event
 		if tile:
 			emit_signal("tile_pressed", tile)
-			print("TILE PRESSED")
 
 func getPixelPosition(tile: Tile) -> Vector2:
 	var pixelPosition: Vector2

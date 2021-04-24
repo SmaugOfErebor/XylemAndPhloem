@@ -3,8 +3,8 @@ extends Node2D
 
 var tileMapPosition: Vector2
 
-var trunk: TileConnection
-var root: TileConnection
+var trunkConnections := []
+var rootConnections := []
 
 func _init(tileMapPosition: Vector2):
 	self.tileMapPosition = tileMapPosition
@@ -14,11 +14,16 @@ func _init(tileMapPosition: Vector2):
 	var trunkPosition: Vector2
 	trunkPosition.x = tileMapPosition.x
 	trunkPosition.y = tileMapPosition.y - 1
-	trunk = TileConnection.new(tileMap.getTile(tileMapPosition), tileMap.getTile(trunkPosition), 0)
-	add_child(trunk)
+	addTileConnection(TileConnection.new(tileMap.getTile(tileMapPosition), tileMap.getTile(trunkPosition), 0))
 	
 	var rootPosition: Vector2
 	rootPosition.x = tileMapPosition.x
 	rootPosition.y = tileMapPosition.y + 1
-	root = TileConnection.new(tileMap.getTile(tileMapPosition), tileMap.getTile(rootPosition), 1)
-	add_child(root)
+	addTileConnection(TileConnection.new(tileMap.getTile(tileMapPosition), tileMap.getTile(rootPosition), 1))
+
+func addTileConnection(tileCon: TileConnection):
+	if tileCon.lineType == 0:
+		trunkConnections.append(tileCon)
+	else:
+		rootConnections.append(tileCon)
+	add_child(tileCon)
