@@ -16,18 +16,19 @@ func _init(tileMapPosition: Vector2):
 	self.tileMapPosition = tileMapPosition
 	
 	var tileMap: TileMap = Globals.get_tiles()
+	var seedTile: Tile = tileMap.getTile(tileMapPosition)
 	
 	var trunkPosition: Vector2
 	trunkPosition.x = tileMapPosition.x
 	trunkPosition.y = tileMapPosition.y - 1
 	trunkTile = tileMap.getTile(trunkPosition)
-	add_child(TileConnection.new(tileMap.getTile(tileMapPosition), trunkTile, 0))
+	tileMap.addChildTileConnection(seedTile, trunkTile, 0)
 	
 	var rootPosition: Vector2
 	rootPosition.x = tileMapPosition.x
 	rootPosition.y = tileMapPosition.y + 1
 	rootTile = tileMap.getTile(rootPosition)
-	add_child(TileConnection.new(tileMap.getTile(tileMapPosition), rootTile, 1))
+	tileMap.addChildTileConnection(seedTile, rootTile, 1)
 
 func _process(delta):
 	# Collect unspendable currency based on the number of roots the tree has
