@@ -58,8 +58,9 @@ func tilePressed(tile: Tile):
 			for neighbor in neighborTiles:
 				if neighbor == selectedFromTile:
 					# Can make a valid connection
-					var tileCon := TileConnection.new(selectedFromTile, tile, 0 if selectedFromTile.position.y < 0 else 1)
-					playerGameTree.addTileConnection(tileCon)
+					add_child(TileConnection.new(selectedFromTile, tile, 0 if selectedFromTile.position.y < 0 else 1))
+					selectedFromTile.outgoingConnectionTiles.append(tile)
+					tile.incomingConnectionTile = selectedFromTile
 					# Clear selection
 					selectedFromTile = null
 					tileSelectHighlight.visible = false
