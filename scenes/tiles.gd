@@ -51,14 +51,14 @@ func tilePressed(tile: Tile):
 	# Check which
 	if selectedFromTile == null:
 		# Make sure the tile has a connection
-		if tile.hasConnections():
+		if tile.hasConnections() and tile.tileId != TileId.TRANSPARENT:
 			# Select a from tile
 			if setTileSelectHighlight(tile):
 				selectedFromTile = tile
 	else:
 		# This is the user's "to" tile selection
 		# First, make sure it's on the same level
-		if (selectedFromTile.position.y < 0 and tile.position.y < 0) or (selectedFromTile.position.y >= 0 and tile.position.y >= 0):
+		if Utils.mySign(selectedFromTile.position.y) == Utils.mySign(tile.position.y):
 			# And make sure it's still valid (has connections still)
 			if selectedFromTile.hasConnections():
 				# Get all tile neighbors
@@ -86,7 +86,8 @@ func addChildTileConnection(fromTile: Tile, toTile: Tile, tileType: int):
 func isSelectableNeighbor(tile: Tile, neighbor: Tile) -> bool:
 	if neighbor == null:
 		return false
-	return sign(tile.position.y) == sign(neighbor.position.y) and not neighbor.hasConnections()
+	var valid: bool = Utils.mySign(tile.position.y) == Utils.mySign(neighbor.position.y) and not neighbor.hasConnections()
+	return valid
 
 func setTileSelectHighlight(tile: Tile) -> bool:
 	var neighbors = getNeighborTiles(tile, true)
