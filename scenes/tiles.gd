@@ -2,6 +2,7 @@ extends TileMap
 
 # This corresponds to tile IDs in tileset
 const TILE_SIZE := Vector2(44, 50)
+const SCREEN_TILE_WIDTH: int = 23
 enum TileId {
 	DIRT,
 	ENRICHED_DIRT,
@@ -49,7 +50,8 @@ func _input(event):
 		# Draw the highlight at the given tile position
 		tileHighlight.position = tilePos * TILE_SIZE
 		tileHighlight.visible = true
-	elif (event is InputEventMouseButton or event is InputEventScreenTouch) and event.is_pressed():
+	elif ((event is InputEventMouseButton and event.button_index == BUTTON_LEFT) or 
+			event is InputEventScreenTouch) and event.is_pressed():
 		# The user pressed on a tile (possibly)
 		# Get the touch or mouse press location
 		var pressedPos: Vector2 = get_global_mouse_position()
@@ -67,10 +69,41 @@ func _input(event):
 func tempGenerate():
 	# Iterate through the basic visual range
 	for y in range(-10, 10):
-		for x in range(0, 23):
+		for x in range(0, SCREEN_TILE_WIDTH):
 			# Remove the middle row of tiles on ground
 			if y == -1 and x % 2 == 1:
 				continue
-			# Generate sun if on top, dirt if bottom
-			var tileId: int = TileId.DIRT if y >= 0 else TileId.SUNLIGHT
-			addTile(tileId, Vector2(x, y))
+
+			if y < 0:
+				# Above ground
+				addTile(TileId.SUNLIGHT, Vector2(x, y))
+			else:
+				# Below ground
+				addTile(TileId.DIRT, Vector2(x, y))
+
+	generatePockets(TileId.WATER, 5, 8, 0, SCREEN_TILE_WIDTH-1, 4, 9, 1, 2)
+	generatePockets(TileId.ENRICHED_DIRT, 6, 8, 0, SCREEN_TILE_WIDTH-1, 1, 9, 1, 3)
+	generatePockets(TileId.ROCK, 2, 3, 0, SCREEN_TILE_WIDTH-1, 4, 7, 1, 1)
+
+func generatePockets(tileId: int, 
+					minPockets: int, maxPockets: int,
+					xMin: int, xMax: int,
+					yMin: int, yMax: int,
+					radiusMin: int, radiusMax: int):
+	# Randomize number of pockets to generate
+	for i in range(Utils.randInt(minPockets, maxPockets)):
+		# Calculate a tile to act as the root
+		var basePos := Vector2(Utils.randInt(xMin, xMax), Utils.randInt(yMin, yMax))
+		# Generate radiuses
+		var xRadius: int = Utils.randInt(radiusMin, radiusMax)
+		var yRadius: int = Utils.randInt(radiusMin, radiusMax)
+		# Build out the pocket
+		for x in range(-xRadius, xRadius):
+			for y in range(-yRadius, yRadius):
+				# Calculate position of tile to change
+				var pos: Vector2 = basePos + Vector2(x, y)
+				# Ensure it's within bounds
+				if pos.y < yMin or pos.y > yMax or pos.x < xMin or pos.x > xMax:
+					continue
+				# Change the tile
+				addTile(tileId, pos)

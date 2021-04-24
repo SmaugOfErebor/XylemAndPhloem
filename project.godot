@@ -36,6 +36,10 @@ config/name="Xylem And Phloem"
 run/main_scene="res://scenes/background.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Utils="*res://autoloads/utils.gd"
+
 [global]
 
 wind=false
