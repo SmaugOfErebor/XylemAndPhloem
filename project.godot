@@ -15,6 +15,11 @@ _global_script_classes=[ {
 "path": "res://scenes/camera.gd"
 }, {
 "base": "Node2D",
+"class": "GameTree",
+"language": "GDScript",
+"path": "res://scenes/tree.gd"
+}, {
+"base": "Node2D",
 "class": "Root2D",
 "language": "GDScript",
 "path": "res://scenes/root_2d.gd"
@@ -23,11 +28,18 @@ _global_script_classes=[ {
 "class": "Tile",
 "language": "GDScript",
 "path": "res://scenes/classes/tile.gd"
+}, {
+"base": "Line2D",
+"class": "TileConnection",
+"language": "GDScript",
+"path": "res://scenes/classes/tile_connection.gd"
 } ]
 _global_script_class_icons={
 "GameCam": "",
+"GameTree": "",
 "Root2D": "",
-"Tile": ""
+"Tile": "",
+"TileConnection": ""
 }
 
 [application]
@@ -35,6 +47,10 @@ _global_script_class_icons={
 config/name="Xylem And Phloem"
 run/main_scene="res://scenes/background.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+Globals="*res://autoloads/globals.gd"
 
 [global]
 
