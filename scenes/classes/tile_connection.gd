@@ -57,6 +57,9 @@ func _init(fromTile: Tile, toTile: Tile, lineType: int):
 		add_point(startPos + (((i as float) / (steps as float)) * fullVec) + variation)
 	
 	reevaluateThickness()
+	match lineType:
+		lineTypes.branch: Audio.playLeafSound()
+		lineTypes.root: Audio.playRootSound()
 
 func add_leaf():
 	leafSprite = Sprite.new()
@@ -71,7 +74,6 @@ func add_leaf():
 		leafSprite.rotation += deg2rad(40)
 	add_child(leafSprite)
 	toTile.hasLeaf = true
-	Audio.playLeafSound()
 
 func remove_leaf():
 	remove_child(leafSprite)
