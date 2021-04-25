@@ -277,4 +277,23 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="bonus_grid" type="Control" parent="fg/currency_display"]
+margin_left = 5.0
+margin_top = 50.0
+margin_right = 302.2
+margin_bottom = 108.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="text" type="Label" parent="fg/currency_display/bonus_grid"]
+margin_left = 81.0
+margin_top = 2.0
+margin_right = 142.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 13 )
+text = "+??"
+align = 2
+
 [connection signal="animation_finished" from="fg/currency_display/conversion_control/anim" to="fg/currency_display" method="_on_anim_animation_finished"]

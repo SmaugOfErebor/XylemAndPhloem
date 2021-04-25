@@ -22,6 +22,8 @@ var leafSprite: Sprite
 var startPos: Vector2
 var terminationPosition: Vector2
 
+var waterBenefit: int = 0
+
 const THICKNESS_POWER: float = 1.3
 
 func _init(fromTile: Tile, toTile: Tile, lineType: int):
@@ -61,6 +63,11 @@ func _init(fromTile: Tile, toTile: Tile, lineType: int):
 		lineTypes.branch: Audio.playLeafSound()
 		lineTypes.root: Audio.playRootSound()
 
+func changeWaterBenefit(amount: int):
+	if amount <= 0:
+		return
+	waterBenefit += amount
+
 func add_leaf():
 	leafSprite = Sprite.new()
 	leafSprite.texture = load("res://images/leaf_100.png")
@@ -72,6 +79,7 @@ func add_leaf():
 	else:
 		leafSprite.flip_v = false
 		leafSprite.rotation += deg2rad(40)
+	leafSprite.rotation += deg2rad(rand_range(-15, 15))
 	add_child(leafSprite)
 	toTile.hasLeaf = true
 

@@ -57,11 +57,13 @@ func _process(delta):
 		Globals.emit_signal("player_currency_converted")
 
 func get_total_nutrients() -> int:
-	# Add one to account for the first root
-	return rootTile.getSelfAndDescendantNutrients()
+	return rootTile.getSelfAndDescendantNutrients() + get_total_water_bonus()
+
+func get_total_water_bonus() -> int:
+	return rootTile.getSelfAndDescendantWaterBonus()
 
 func get_total_sunlight() -> float:
-	return trunkTile.getSelfAndDescendantSunlight() * LEAF_STRENGTH
+	return trunkTile.getSelfAndDescendantSunlight() * LEAF_STRENGTH + get_total_water_bonus() * LEAF_STRENGTH
 
 func getSpendableAsInt() -> int:
 	return floor(spendableCurrency) as int

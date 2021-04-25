@@ -1,5 +1,7 @@
 class_name Tile
 
+const WATER_DEPLETION_TIME_STEP: float = 2.0
+
 var tileId: int
 var position: Vector2
 
@@ -9,6 +11,42 @@ var outgoingConnections = []
 
 var hasLeaf: bool = false
 var leafStrength: float = 0.0
+
+var waterTileDepletionTimer: float = 0.0
+var waterTilePower: int = Globals.TID_WATER_MAX - Globals.TID_WATER_0
+var prevWaterIncomingConnection = null
+
+func update(delta: float):
+	if isWaterTile():
+		if incomingConnection:
+			if incomingConnection != prevWaterIncomingConnection:
+				if prevWaterIncomingConnection:
+					prevWaterIncomingConnection.changeWaterBenefit(-waterTilePower)
+				waterTileDepletionTimer = 0.0
+				waterTilePower = Globals.TID_WATER_MAX - Globals.TID_WATER_0
+				refreshWaterTilePower()
+				incomingConnection.changeWaterBenefit(waterTilePower)
+			prevWaterIncomingConnection = incomingConnection
+			waterTileDepletionTimer += delta
+			if waterTilePower > 0 and waterTileDepletionTimer > WATER_DEPLETION_TIME_STEP:
+				waterTileDepletionTimer = 0.0
+				incomingConnection.changeWaterBenefit(-waterTilePower)
+				waterTilePower -= 1
+				incomingConnection.changeWaterBenefit(waterTilePower)
+				refreshWaterTilePower()
+		elif incomingConnection != prevWaterIncomingConnection:
+			# Prev wasn't null, but incoming is now null, so reset
+			prevWaterIncomingConnection.changeWaterBenefit(-waterTilePower)
+			waterTileDepletionTimer = 0.0
+			waterTilePower = Globals.TID_WATER_MAX - Globals.TID_WATER_0
+			refreshWaterTilePower()
+			prevWaterIncomingConnection = null
+
+func refreshWaterTilePower():
+	Globals.get_tiles().set_cellv(position, Globals.TID_WATER_0 + waterTilePower)
+
+func isWaterTile() -> bool:
+	return tileId >= Globals.TID_WATER_0 and tileId <= Globals.TID_WATER_MAX
 
 func _init(tileId: int, position: Vector2):
 	self.tileId = tileId
@@ -75,6 +113,12 @@ func getSelfAndDescendantNutrients() -> int:
 		totalNutrientCount += outgoingConnection.toTile.getSelfAndDescendantNutrients()
 	
 	return totalNutrientCount
+	
+func getSelfAndDescendantWaterBonus() -> int:
+	var total: int = 0
+	for outgoing in outgoingConnections:
+		total += outgoing.toTile.getSelfAndDescendantWaterBonus()
+	return total + (waterTilePower if isWaterTile() else 0)
 
 func getLengthFromHere() -> int:
 	if incomingConnection == null:
