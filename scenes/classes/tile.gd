@@ -7,6 +7,8 @@ var ownerId: int = Globals.OWNER_NONE
 var incomingConnection
 var outgoingConnections = []
 
+var hasLeaf: bool = false
+
 func _init(tileId: int, position: Vector2):
 	self.tileId = tileId
 	self.position = position

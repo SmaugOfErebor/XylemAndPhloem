@@ -96,6 +96,24 @@ func addChildTileConnection(fromTile: Tile, toTile: Tile, tileType: int, ownerId
 		newConnection.add_leaf()
 		if fromTile.incomingConnection != null:
 			fromTile.incomingConnection.remove_leaf()
+		reevaluateSunlight(fromTile)
+		reevaluateSunlight(toTile)
+
+func reevaluateSunlight(tile: Tile):
+	var numLeaves: int = 0
+	for i in range(get_used_rect().position.y, -1):
+		var currentTile: Tile = getTile(Vector2(tile.position.x, i))
+		if currentTile.hasLeaf:
+			numLeaves += 1
+		var tileId: int
+		match numLeaves:
+			0: tileId = 4
+			1: tileId = 5
+			2: tileId = 6
+			3: tileId = 7
+			4: tileId = 8
+			_: tileId = 9
+		addTile(tileId, currentTile.position)
 
 func calculateCost(from: Tile, to: Tile) -> int:
 	var ownerCost: int = 0

@@ -37,6 +37,8 @@ func add_leaf():
 	leafSprite.texture = load("res://images/leaf.png")
 	leafSprite.position = terminationPosition
 	add_child(leafSprite)
+	toTile.hasLeaf = true
 
 func remove_leaf():
 	remove_child(leafSprite)
+	toTile.hasLeaf = false
