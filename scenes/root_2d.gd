@@ -6,6 +6,9 @@ const plTiles = preload("res://scenes/tiles.tscn")
 onready var tilesContainer: Node2D = $tiles_container
 onready var currencyDisplay: Control = $"../fg/currency_display"
 onready var titleScreen: Node2D = $title_screen
+onready var gameOverScreen: Node2D = $game_over_screen
+onready var gameOverWon: Label = $game_over_screen/won_label
+onready var gameOverLost: Label = $game_over_screen/lost_label
 
 func _ready():
 	showTitleScreen()
@@ -13,6 +16,7 @@ func _ready():
 
 func resetScreens():
 	titleScreen.visible = false
+	gameOverScreen.visible = false
 	currencyDisplay.visible = false
 	$camera.moveToTop()
 	$camera.lock()
@@ -21,6 +25,12 @@ func resetScreens():
 func showTitleScreen():
 	resetScreens()
 	titleScreen.visible = true
+	
+func showGameOverScreen(won: bool):
+	resetScreens()
+	gameOverScreen.visible = true
+	gameOverWon.visible = won
+	gameOverLost.visible = not won
 
 func get_tiles() -> TileMap:
 	return tilesContainer.get_child(tilesContainer.get_child_count() - 1) as TileMap
@@ -37,3 +47,6 @@ func playNewGame():
 
 func _on_play_btn_pressed():
 	playNewGame()
+
+func _on_menu_btn_pressed():
+	showTitleScreen()

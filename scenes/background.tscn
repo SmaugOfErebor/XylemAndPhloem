@@ -175,11 +175,12 @@ script = ExtResource( 3 )
 [node name="tiles_container" type="Node2D" parent="root_2d"]
 
 [node name="title_screen" type="Node2D" parent="root_2d"]
+visible = false
 
 [node name="title_label_container" type="Control" parent="root_2d/title_screen"]
-margin_left = 330.0
+margin_left = 302.0
 margin_top = 64.0
-margin_right = 330.0
+margin_right = 302.0
 margin_bottom = 64.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -209,7 +210,7 @@ margin_top = 580.0
 margin_right = 690.0
 margin_bottom = 594.0
 custom_fonts/font = ExtResource( 13 )
-text = "created  in under 72 hours for Ludum Dare 48 by SmaugOfErebor and CodeNMore"
+text = "created in under 72 hours for Ludum Dare 48 by SmaugOfErebor and CodeNMore"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -223,11 +224,61 @@ __meta__ = {
 }
 
 [node name="play_btn" type="Button" parent="root_2d/title_screen/btn_control"]
+margin_left = 414.0
+margin_top = 422.0
+margin_right = 597.0
+margin_bottom = 479.0
+text = "PLAY"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="game_over_screen" type="Node2D" parent="root_2d"]
+visible = false
+
+[node name="won_label" type="Label" parent="root_2d/game_over_screen"]
+margin_left = 203.0
+margin_top = 53.0
+margin_right = 859.0
+margin_bottom = 365.0
+custom_fonts/font = ExtResource( 1 )
+text = "Snailbert
+is proud
+of you :)"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lost_label" type="Label" parent="root_2d/game_over_screen"]
+margin_left = 69.0
+margin_top = 53.0
+margin_right = 973.0
+margin_bottom = 365.0
+custom_fonts/font = ExtResource( 1 )
+text = "Phloem
+Defeated You"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="btn_control" type="Control" parent="root_2d/game_over_screen"]
+margin_right = 40.0
+margin_bottom = 40.0
+theme = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="menu_btn" type="Button" parent="root_2d/game_over_screen/btn_control"]
 margin_left = 431.0
 margin_top = 422.0
 margin_right = 614.0
 margin_bottom = 479.0
-text = "PLAY"
+text = "MENU"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -236,10 +287,10 @@ __meta__ = {
 
 [node name="snailbert" parent="root_2d/snails" instance=ExtResource( 8 )]
 position = Vector2( -46, 482 )
-frame = 1
 
 [node name="snailbert2" parent="root_2d/snails" instance=ExtResource( 8 )]
 position = Vector2( 1090, 482 )
+frame = 3
 isMate = true
 dir = -1
 
@@ -361,4 +412,5 @@ text = "+??"
 align = 2
 
 [connection signal="pressed" from="root_2d/title_screen/btn_control/play_btn" to="root_2d" method="_on_play_btn_pressed"]
+[connection signal="pressed" from="root_2d/game_over_screen/btn_control/menu_btn" to="root_2d" method="_on_menu_btn_pressed"]
 [connection signal="animation_finished" from="fg/currency_display/conversion_control/anim" to="fg/currency_display" method="_on_anim_animation_finished"]
