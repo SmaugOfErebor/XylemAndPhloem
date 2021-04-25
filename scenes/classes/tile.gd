@@ -29,6 +29,17 @@ func get_descendant_tile_count() -> int:
 	
 	return descendantCount
 
+func getSelfAndDescendantNutrients() -> int:
+	var totalNutrientCount: int = 0
+	match tileId:
+		Globals.TID_DIRT: totalNutrientCount += 1
+		Globals.TID_ENRICHED_DIRT: totalNutrientCount += 3
+	
+	for outgoingConnection in outgoingConnections:
+		totalNutrientCount += outgoingConnection.toTile.getSelfAndDescendantNutrients()
+	
+	return totalNutrientCount
+
 func getLengthFromHere() -> int:
 	if incomingConnection == null:
 		return 0
