@@ -10,6 +10,7 @@ var selectedFromTile: Tile = null
 
 # Signal for when the user presses a tile
 signal tile_pressed(tile)
+signal game_over(won)
 
 onready var tileHighlight: Sprite = $tile_highlight
 onready var tileSelectHighlight: Sprite = $tile_select_highlight
@@ -38,6 +39,10 @@ func _ready():
 	ai = DumbAI.new(computerGameTree, 0.3)
 	# Listen for tile presses
 	connect("tile_pressed", self, "tilePressed")
+	connect("game_over", self, "onGameOver")
+	
+func onGameOver(won: bool):
+	print("GAME OVER: " + str(won))
 	
 # When the user clicks a tile
 func tilePressed(tile: Tile):

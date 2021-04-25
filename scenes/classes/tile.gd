@@ -14,6 +14,11 @@ func _init(tileId: int, position: Vector2):
 	self.position = position
 
 func remove_connections(removeFromParentOutgoing: bool = true):
+	if Globals.get_tiles().playerGameTree.rootTile == self:
+		Globals.get_tiles().emit_signal("game_over", false)
+	elif Globals.get_tiles().computerGameTree.rootTile == self:
+		Globals.get_tiles().emit_signal("game_over", true)
+	
 	if incomingConnection:
 		incomingConnection.get_parent().remove_child(incomingConnection)
 		if removeFromParentOutgoing:
