@@ -23,7 +23,7 @@ func update(delta: float):
 				if prevWaterIncomingConnection:
 					prevWaterIncomingConnection.changeWaterBenefit(-waterTilePower)
 				waterTileDepletionTimer = 0.0
-				waterTilePower = Globals.TID_WATER_MAX - Globals.TID_WATER_0
+				#waterTilePower = Globals.TID_WATER_MAX - Globals.TID_WATER_0
 				refreshWaterTilePower()
 				incomingConnection.changeWaterBenefit(waterTilePower)
 			prevWaterIncomingConnection = incomingConnection
@@ -38,7 +38,7 @@ func update(delta: float):
 			# Prev wasn't null, but incoming is now null, so reset
 			prevWaterIncomingConnection.changeWaterBenefit(-waterTilePower)
 			waterTileDepletionTimer = 0.0
-			waterTilePower = Globals.TID_WATER_MAX - Globals.TID_WATER_0
+			#waterTilePower = Globals.TID_WATER_MAX - Globals.TID_WATER_0
 			refreshWaterTilePower()
 			prevWaterIncomingConnection = null
 
@@ -131,6 +131,8 @@ func hasConnections():
 func getBaseCost() -> int:
 	if tileId == Globals.TID_ROCK:
 		return 5
+	elif isWaterTile():
+		return 3
 	return 1
 
 func getSelfAndDescendantSunlight() -> float:
