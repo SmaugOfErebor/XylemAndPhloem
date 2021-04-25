@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://resources/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://scenes/root_2d.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://scenes/cos_sel.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/currency_display.gd" type="Script" id=6]
 [ext_resource path="res://images/tile_outline_white.png" type="Texture" id=7]
+[ext_resource path="res://scenes/snailbert.tscn" type="PackedScene" id=8]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0, 0, 0.505882 )
@@ -104,6 +105,9 @@ position = Vector2( -44, 25 )
 
 [node name="lt" parent="root_2d/tiles/tile_select_highlight" instance=ExtResource( 5 )]
 position = Vector2( -44, -25 )
+
+[node name="snailbert" parent="root_2d/tiles" instance=ExtResource( 8 )]
+position = Vector2( -32, -11 )
 
 [node name="fg" type="CanvasLayer" parent="."]
 
