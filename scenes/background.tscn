@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://resources/font_outlined_big.tres" type="DynamicFont" id=1]
 [ext_resource path="res://scenes/root_2d.gd" type="Script" id=2]
@@ -22,6 +22,7 @@
 [ext_resource path="res://images/music_button_on.png" type="Texture" id=20]
 [ext_resource path="res://scenes/music_toggle_button.gd" type="Script" id=21]
 [ext_resource path="res://scenes/sound_effect_toggle_button.gd" type="Script" id=22]
+[ext_resource path="res://sounds/select.wav" type="AudioStream" id=23]
 
 [sub_resource type="Animation" id=1]
 resource_name = "title_bounce"
@@ -130,6 +131,10 @@ corner_detail = 20
 [node name="leaf_sound_player" type="AudioStreamPlayer" parent="audio_players"]
 stream = ExtResource( 14 )
 volume_db = -5.0
+
+[node name="select_sound" type="AudioStreamPlayer" parent="audio_players"]
+stream = ExtResource( 23 )
+pitch_scale = 0.8
 
 [node name="root_sound_player" type="AudioStreamPlayer" parent="audio_players"]
 stream = ExtResource( 15 )

@@ -21,6 +21,7 @@ func _init(tileMapPosition: Vector2, ownerId: int):
 	
 	var tileMap: TileMap = Globals.get_tiles()
 	var seedTile: Tile = tileMap.getTile(tileMapPosition)
+	seedTile.ownerId = ownerId
 	
 	var trunkPosition: Vector2
 	trunkPosition.x = tileMapPosition.x
