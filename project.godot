@@ -9,6 +9,16 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Reference",
+"class": "AI",
+"language": "GDScript",
+"path": "res://scenes/classes/ai.gd"
+}, {
+"base": "AI",
+"class": "DumbAI",
+"language": "GDScript",
+"path": "res://scenes/classes/dumb_ai.gd"
+}, {
 "base": "Camera2D",
 "class": "GameCam",
 "language": "GDScript",
@@ -35,6 +45,8 @@ _global_script_classes=[ {
 "path": "res://scenes/classes/tile_connection.gd"
 } ]
 _global_script_class_icons={
+"AI": "",
+"DumbAI": "",
 "GameCam": "",
 "GameTree": "",
 "Root2D": "",

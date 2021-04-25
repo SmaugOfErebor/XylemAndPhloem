@@ -13,11 +13,18 @@ func _init(tileId: int, position: Vector2):
 	self.tileId = tileId
 	self.position = position
 
-func remove_connections():
-	incomingConnection.get_parent().remove_child(incomingConnection)
+func remove_connections(removeFromParentOutgoing: bool = true):
+	if incomingConnection:
+		incomingConnection.get_parent().remove_child(incomingConnection)
+		if removeFromParentOutgoing:
+			incomingConnection.fromTile.outgoingConnections.remove(
+				incomingConnection.fromTile.outgoingConnections.find(incomingConnection)
+			)
+		incomingConnection = null
+		
 	ownerId = Globals.OWNER_NONE
 	for outgoingConnection in outgoingConnections:
-		outgoingConnection.toTile.remove_connections()
+		outgoingConnection.toTile.remove_connections(false)
 	outgoingConnections = []
 
 func get_descendant_tile_count() -> int:

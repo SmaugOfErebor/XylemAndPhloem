@@ -24,6 +24,7 @@ var tileData := {}
 
 var playerGameTree
 var computerGameTree
+var ai: AI
 
 func _ready():
 	# Generate temporary map
@@ -33,6 +34,8 @@ func _ready():
 	computerGameTree = GameTree.new(Vector2(19, -1), Globals.OWNER_COMPUTER)
 	add_child(playerGameTree)
 	add_child(computerGameTree)
+	# Start with super dumb ai
+	ai = DumbAI.new(computerGameTree, 0.3)
 	# Listen for tile presses
 	connect("tile_pressed", self, "tilePressed")
 	
@@ -40,40 +43,53 @@ func _ready():
 func tilePressed(tile: Tile):
 	# Check which
 	if selectedFromTile == null:
-		# Make sure the tile has a connection
-		selectedFromTile = tile
+		# Only if not the computer's tile
+		if tile.ownerId != Globals.OWNER_COMPUTER:
+			selectedFromTile = tile
 	else:
 		# This is the user's "to" tile selection
-		# First, make sure it's on the same level
-		if Utils.mySign(selectedFromTile.position.y) == Utils.mySign(tile.position.y):
-			# And make sure it's still valid (has connections still)
-			if selectedFromTile.hasConnections():
-				# Get all tile neighbors
-				var neighborTiles = getNeighborTiles(tile)
-				# If a connection can be made from a neighbor, make it
-				for neighbor in neighborTiles:
-					if neighbor == selectedFromTile:
-						# Can make a valid connection (if the to tile has no connections yet)
-						if not tile.hasConnections() or (tile.ownerId != Globals.OWNER_NONE and tile.ownerId != selectedFromTile.ownerId):
-							# Check if cost can be OK
-							var cost: int = calculateCost(selectedFromTile, tile)
-							if playerGameTree.getSpendableAsInt() >= cost:
-								# If the tile had an owner (i.e. had connections at this point in the code; checked above)
-								# Then we need to sever that connection of the opponent
-								if tile.hasConnections():
-									tile.remove_connections()
-								# Deduct cost
-								playerGameTree.spendableCurrency -= cost
-								addChildTileConnection(selectedFromTile, tile, 0 if selectedFromTile.position.y < 0 else 1, Globals.OWNER_PLAYER)
-								# Clear selection
-								selectedFromTile = null
-								tileSelectHighlight.visible = false
-							return
-		# No valid connection can be made; cancel selection
-		selectedFromTile = null
-		tileSelectHighlight.visible = false
+		if attemptToGrow(playerGameTree, selectedFromTile, tile):
+			selectedFromTile = tile
+		else:
+			selectedFromTile = null
+			tileSelectHighlight.visible = false
+
+func attemptToGrow(treeUser, from: Tile, to: Tile) -> bool:
+	if canGrow(treeUser, from, to):
+		# If the tile had an owner (i.e. had connections at this point in the code; checked above)
+		# Then we need to sever that connection of the opponent
+		if to.hasConnections():
+			to.remove_connections()
+		# Deduct cost (already verified they can pay)
+		var cost: int = calculateCost(from, to)
+		treeUser.spendableCurrency -= cost
+		addChildTileConnection(from, to, 0 if from.position.y < 0 else 1, treeUser.ownerId)
+		return true
+	return false
+
+func canGrow(treeUser, from: Tile, to: Tile) -> bool:
+	# First, make sure it's on the same level
+	if Utils.mySign(from.position.y) == Utils.mySign(to.position.y):
+		# And make sure it's still valid (has connections still)
+		if from.hasConnections():
+			# Get all tile neighbors
+			var neighborTiles = getNeighborTiles(to)
+			# If a connection can be made from a neighbor, make it
+			for neighbor in neighborTiles:
+				if neighbor == from:
+					# Can make a valid connection (if the to tile has no connections yet)
+					if not to.hasConnections() or (to.ownerId != Globals.OWNER_NONE and to.ownerId != from.ownerId):
+						# Check if cost can be OK
+						var cost: int = calculateCost(from, to)
+						if treeUser.getSpendableAsInt() >= cost:
+							# Can do it
+							return true
+						return false
+	# No valid connection
+	return false
 
 func _physics_process(delta):
+	ai.update(delta)
 	if selectedFromTile:
 		if selectedFromTile.hasConnections() and selectedFromTile.tileId != Globals.TID_TRANSPARENT:
 			# Select a from tile
