@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://resources/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://scenes/root_2d.gd" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://images/unspendable_icon.png" type="Texture" id=9]
 [ext_resource path="res://images/spendable_icon.png" type="Texture" id=10]
 [ext_resource path="res://images/arrow_anim.png" type="Texture" id=11]
+[ext_resource path="res://resources/font.tres" type="DynamicFont" id=12]
 
 [sub_resource type="StyleBoxFlat" id=13]
 bg_color = Color( 0, 0, 0, 0.682353 )
@@ -164,32 +165,30 @@ position = Vector2( -44, -25 )
 
 [node name="snailbert" parent="root_2d/tiles" instance=ExtResource( 8 )]
 position = Vector2( -32, -11 )
-frame = 1
+frame = 0
 
 [node name="fg" type="CanvasLayer" parent="."]
 
 [node name="currency_display" type="Panel" parent="fg"]
 anchor_right = 0.15
-anchor_bottom = 0.105
+anchor_bottom = 0.11
 margin_left = 5.0
 margin_top = 5.0
+margin_right = 1.39999
+margin_bottom = 7.0
 custom_styles/panel = SubResource( 13 )
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="unspendable_grid" type="GridContainer" parent="fg/currency_display"]
+[node name="unspendable_grid" type="Control" parent="fg/currency_display"]
 margin_left = 5.0
 margin_top = 5.0
 margin_right = 302.2
 margin_bottom = 58.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-columns = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="icon" type="TextureRect" parent="fg/currency_display/unspendable_grid"]
 margin_right = 16.0
@@ -197,21 +196,22 @@ margin_bottom = 53.0
 texture = ExtResource( 9 )
 
 [node name="text" type="RichTextLabel" parent="fg/currency_display/unspendable_grid"]
-margin_left = 20.0
-margin_right = 297.0
-margin_bottom = 53.0
+margin_left = 24.0
+margin_right = 321.0
+margin_bottom = 63.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-text = "###"
+custom_fonts/normal_font = ExtResource( 12 )
+text = "159"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="conversion_control" type="Control" parent="fg/currency_display"]
 margin_left = 22.0
-margin_top = 20.0
+margin_top = 25.0
 margin_right = 324.2
-margin_bottom = 78.0
+margin_bottom = 83.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -220,37 +220,32 @@ __meta__ = {
 
 [node name="anim" type="AnimatedSprite" parent="fg/currency_display/conversion_control"]
 modulate = Color( 0.00392157, 0.490196, 0, 1 )
-position = Vector2( 8, 8 )
+position = Vector2( 11, 11 )
 frames = SubResource( 15 )
 animation = "flow"
 frame = 9
 playing = true
 
 [node name="text" type="RichTextLabel" parent="fg/currency_display/conversion_control"]
-anchor_left = 0.0761085
-anchor_right = 0.0761085
-margin_left = -3.0
-margin_top = 3.0
-margin_right = 146.0
-margin_bottom = 61.0
+margin_left = 24.0
+margin_top = 4.0
+margin_right = 173.0
+margin_bottom = 62.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-text = "###"
+custom_fonts/normal_font = ExtResource( 12 )
+text = "159"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="spendable_grid" type="GridContainer" parent="fg/currency_display"]
+[node name="spendable_grid" type="Control" parent="fg/currency_display"]
 margin_left = 5.0
-margin_top = 38.0
+margin_top = 50.0
 margin_right = 302.2
-margin_bottom = 96.0
+margin_bottom = 108.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-columns = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="icon" type="TextureRect" parent="fg/currency_display/spendable_grid"]
 margin_right = 16.0
@@ -258,12 +253,14 @@ margin_bottom = 58.0
 texture = ExtResource( 10 )
 
 [node name="text" type="RichTextLabel" parent="fg/currency_display/spendable_grid"]
-margin_left = 20.0
-margin_right = 297.0
-margin_bottom = 58.0
+margin_left = 25.0
+margin_top = 1.0
+margin_right = 322.0
+margin_bottom = 59.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-text = "###"
+custom_fonts/normal_font = ExtResource( 12 )
+text = "159"
 __meta__ = {
 "_edit_use_anchors_": false
 }
