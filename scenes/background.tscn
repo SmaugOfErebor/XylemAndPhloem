@@ -12,7 +12,7 @@
 [ext_resource path="res://images/spendable_icon.png" type="Texture" id=10]
 [ext_resource path="res://images/arrow_anim.png" type="Texture" id=11]
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="StyleBoxFlat" id=13]
 bg_color = Color( 0, 0, 0, 0.682353 )
 border_color = Color( 0, 0, 0, 1 )
 corner_radius_top_left = 5
@@ -21,7 +21,7 @@ corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 corner_detail = 20
 
-[sub_resource type="AtlasTexture" id=2]
+[sub_resource type="AtlasTexture" id=14]
 atlas = ExtResource( 11 )
 region = Rect2( 160, 0, 16, 16 )
 
@@ -65,9 +65,9 @@ region = Rect2( 128, 0, 16, 16 )
 atlas = ExtResource( 11 )
 region = Rect2( 144, 0, 16, 16 )
 
-[sub_resource type="SpriteFrames" id=13]
+[sub_resource type="SpriteFrames" id=15]
 animations = [ {
-"frames": [ SubResource( 2 ) ],
+"frames": [ SubResource( 14 ) ],
 "loop": false,
 "name": "idle",
 "speed": 5.0
@@ -164,15 +164,16 @@ position = Vector2( -44, -25 )
 
 [node name="snailbert" parent="root_2d/tiles" instance=ExtResource( 8 )]
 position = Vector2( -32, -11 )
+frame = 1
 
 [node name="fg" type="CanvasLayer" parent="."]
 
 [node name="currency_display" type="Panel" parent="fg"]
-anchor_right = 0.2
+anchor_right = 0.15
 anchor_bottom = 0.105
 margin_left = 5.0
 margin_top = 5.0
-custom_styles/panel = SubResource( 1 )
+custom_styles/panel = SubResource( 13 )
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -220,7 +221,7 @@ __meta__ = {
 [node name="anim" type="AnimatedSprite" parent="fg/currency_display/conversion_control"]
 modulate = Color( 0.00392157, 0.490196, 0, 1 )
 position = Vector2( 8, 8 )
-frames = SubResource( 13 )
+frames = SubResource( 15 )
 animation = "flow"
 frame = 9
 playing = true
