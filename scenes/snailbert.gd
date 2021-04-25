@@ -35,6 +35,7 @@ func _process(delta):
 		elif dir > 0 and position.x > get_viewport().size.x + 16:
 			dir = -1
 			delayTimer.start(rand_range(3, 8))
+		
 	flip_h = (dir > 0)
 
 func sleep():
