@@ -40,7 +40,7 @@ func _process(delta):
 		return
 
 	# Collect unspendable currency based on the number of roots the tree has
-	unspendablePerSec = get_total_roots() * UNSPENDABLE_CURRENCY_RATE
+	unspendablePerSec = get_total_nutrients() * UNSPENDABLE_CURRENCY_RATE
 	unspendableCurrency += unspendablePerSec * delta
 	# Attempt to convert unspendable currency based on total sunlight
 	var maximumConvertedCurrency: float = get_total_sunlight() * delta
@@ -53,9 +53,9 @@ func _process(delta):
 		spendableCurrency += maximumConvertedCurrency
 		unspendableCurrency -= maximumConvertedCurrency
 
-func get_total_roots() -> int:
+func get_total_nutrients() -> int:
 	# Add one to account for the first root
-	return rootTile.get_descendant_tile_count() + 1
+	return rootTile.getSelfAndDescendantNutrients()
 
 func get_total_sunlight() -> float:
 	return trunkTile.getSelfAndDescendantSunlight() * LEAF_STRENGTH
