@@ -18,6 +18,8 @@ func remove_connections(removeFromParentOutgoing: bool = true):
 		Globals.get_tiles().emit_signal("game_over", false)
 	elif Globals.get_tiles().computerGameTree.rootTile == self:
 		Globals.get_tiles().emit_signal("game_over", true)
+		
+	Globals.get_camera().shake(get_descendant_tile_count())
 	
 	if incomingConnection:
 		incomingConnection.get_parent().remove_child(incomingConnection)
