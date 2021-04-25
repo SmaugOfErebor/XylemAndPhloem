@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/snailbert_toms.ogg-a61dbd8d8e359fb37cdfafe231b8ce79.oggstr"
+
+[deps]
+
+source_file="res://sounds/snailbert_toms.ogg"
+dest_files=[ "res://.import/snailbert_toms.ogg-a61dbd8d8e359fb37cdfafe231b8ce79.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
