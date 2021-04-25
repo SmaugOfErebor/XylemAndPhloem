@@ -8,4 +8,7 @@ func _ready():
 	play()
 
 func _process(delta):
-	volume_db = abs(snailbert.position.x - halfScreenWidth) / halfScreenWidth * -15
+	if Audio.musicEnabled:
+		volume_db = abs(snailbert.position.x - halfScreenWidth) / halfScreenWidth * -15
+	else:
+		volume_db = -80
