@@ -26,6 +26,9 @@ func remove_connections(removeFromParentOutgoing: bool = true):
 	for outgoingConnection in outgoingConnections:
 		outgoingConnection.toTile.remove_connections(false)
 	outgoingConnections = []
+	
+	if Globals.get_tiles().selectedFromTile == self:
+		Globals.get_tiles().removeSelectionHighlight()
 
 func get_descendant_tile_count() -> int:
 	# Start with immediate children
