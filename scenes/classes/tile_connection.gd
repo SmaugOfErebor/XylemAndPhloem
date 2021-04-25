@@ -4,6 +4,10 @@ extends Line2D
 const plRootNoise: Texture = preload("res://images/root_noise.png")
 const plTrunkNoise: Texture = preload("res://images/trunk_noise.png")
 
+const POINT_ROOT_STEPS: int = 10
+const POINT_TRUNK_STEPS: int = 7
+const TRUNK_VARIATION_PROB: float = 0.3
+
 enum lineTypes {
 	branch,
 	root
@@ -38,9 +42,18 @@ func _init(fromTile: Tile, toTile: Tile, lineType: int):
 	
 	# Store the termination position to draw a leaf at
 	terminationPosition = Globals.get_tiles().getCenterPixelPosition(toTile)
+	var startPos: Vector2 = Globals.get_tiles().getCenterPixelPosition(fromTile)
+	var fullVec: Vector2 = terminationPosition - startPos
 	
-	add_point(Globals.get_tiles().getCenterPixelPosition(fromTile))
-	add_point(terminationPosition)
+	var steps: int = POINT_ROOT_STEPS if lineType == lineTypes.root else POINT_TRUNK_STEPS
+	for i in range(steps + 1):
+		var variation := Vector2()
+		if i > 0 and i < steps:
+			if lineType == lineTypes.root:
+				variation = Vector2(rand_range(-2, 2), rand_range(-2, 2))
+			elif randf() < TRUNK_VARIATION_PROB:
+				variation = Vector2(rand_range(-2, 2), rand_range(-2, 2))
+		add_point(startPos + (((i as float) / (steps as float)) * fullVec) + variation)
 	
 	reevaluateThickness()
 
