@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://resources/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://scenes/root_2d.gd" type="Script" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://images/background.png" type="Texture" id=12]
 [ext_resource path="res://resources/font.tres" type="DynamicFont" id=13]
 [ext_resource path="res://sounds/leaf.wav" type="AudioStream" id=14]
+[ext_resource path="res://sounds/root.wav" type="AudioStream" id=15]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0, 0, 0.682353 )
@@ -87,6 +88,10 @@ animations = [ {
 
 [node name="leaf_sound_player" type="AudioStreamPlayer" parent="audio_players"]
 stream = ExtResource( 14 )
+volume_db = -5.0
+
+[node name="root_sound_player" type="AudioStreamPlayer" parent="audio_players"]
+stream = ExtResource( 15 )
 volume_db = -5.0
 
 [node name="bg" type="Control" parent="."]
@@ -172,6 +177,7 @@ position = Vector2( -44, -25 )
 
 [node name="snailbert" parent="root_2d/tiles" instance=ExtResource( 8 )]
 position = Vector2( -32, -11 )
+frame = 0
 
 [node name="fg" type="CanvasLayer" parent="."]
 
