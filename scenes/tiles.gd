@@ -150,6 +150,10 @@ func addChildTileConnection(fromTile: Tile, toTile: Tile, tileType: int, ownerId
 	toTile.incomingConnection = newConnection
 	toTile.ownerId = ownerId
 	
+	# If first root, color it differently for opponent's tree
+	if ownerId == Globals.OWNER_COMPUTER and not fromTile.incomingConnection:
+		newConnection.self_modulate = Color.brown
+	
 	if tileType == 0:
 		newConnection.add_leaf()
 		if fromTile.incomingConnection != null:
@@ -180,6 +184,8 @@ func calculateCost(from: Tile, to: Tile) -> int:
 	var ownerCost: int = 0
 	if to.ownerId != Globals.OWNER_NONE and to.ownerId != from.ownerId:
 		ownerCost = to.get_descendant_tile_count() * 3
+	if from.position.y < 0 and from.position.x != to.position.x:
+		ownerCost += 1 # Horizontal movement above ground + 1 more
 	return to.getBaseCost() + (from.getLengthFromHere() / 3) + ownerCost
 
 func showSelectableNeighbor(highlight: Sprite, tile: Tile, neighbor: Tile):
@@ -261,7 +267,10 @@ func _input(event):
 			tileHighlight.visible = false
 			return
 		# Draw the highlight at the given tile position
-		tileHighlight.position = getPixelPosition(tile)
+		var newPos = getPixelPosition(tile)
+		if newPos != tileHighlight.position:
+			Audio.playSelectSound()
+		tileHighlight.position = newPos
 		tileHighlight.visible = true
 	elif ((event is InputEventMouseButton and event.button_index == BUTTON_LEFT) or 
 			event is InputEventScreenTouch) and event.is_pressed():

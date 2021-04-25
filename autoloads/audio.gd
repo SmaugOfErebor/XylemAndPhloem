@@ -7,6 +7,7 @@ onready var audioPlayers: Node = get_tree().get_root().get_node("root_node").get
 onready var leafSoundPlayer: AudioStreamPlayer = audioPlayers.get_node("leaf_sound_player")
 onready var rootSoundPlayer: AudioStreamPlayer = audioPlayers.get_node("root_sound_player")
 onready var snipSoundPlayer: AudioStreamPlayer = audioPlayers.get_node("snip_sound_player")
+onready var selectSoundPlayer: AudioStreamPlayer = audioPlayers.get_node("select_sound")
 
 func playLeafSound():
 	if !snipSoundPlayer.is_playing():
@@ -20,3 +21,6 @@ func playRootSound():
 
 func playSnipSound():
 	snipSoundPlayer.play()
+
+func playSelectSound():
+	selectSoundPlayer.play()

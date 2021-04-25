@@ -5,6 +5,7 @@ const GROW_POINT_TIME: float = 0.03
 
 const plRootNoise: Texture = preload("res://images/root_noise.png")
 const plTrunkNoise: Texture = preload("res://images/trunk_noise.png")
+const plTrunkNoiseEnemy: Texture = preload("res://images/enemy_trunk_noise.png")
 
 const POINT_ROOT_STEPS: int = 10
 const POINT_TRUNK_STEPS: int = 7
@@ -38,14 +39,14 @@ func _init(fromTile: Tile, toTile: Tile, lineType: int):
 	begin_cap_mode = Line2D.LINE_CAP_ROUND
 	end_cap_mode = Line2D.LINE_CAP_ROUND
 	
-	default_color = Color.white
+	default_color = Color.white if fromTile.ownerId == Globals.OWNER_PLAYER else Color.lightcoral
 	#if lineType == lineTypes.branch:
 	#	default_color = Color(.29, .16, .04, 1.0)
 	#else:
 	#	default_color = Color(.88, .67, .47, 1.0)
 		
 	texture_mode = Line2D.LINE_TEXTURE_TILE
-	texture = plRootNoise if lineType == lineTypes.root else plTrunkNoise
+	texture = plRootNoise if lineType == lineTypes.root else (plTrunkNoise if fromTile.ownerId == Globals.OWNER_PLAYER else plTrunkNoiseEnemy)
 	
 	# Store the termination position to draw a leaf at
 	terminationPosition = Globals.get_tiles().getCenterPixelPosition(toTile)
@@ -88,6 +89,7 @@ func add_leaf():
 	leafSprite.texture = load("res://images/leaf_100.png")
 	leafSprite.position = terminationPosition if generatedPointsToAdd.size() <= 0 else generatedPointsToAdd.front()
 	leafSprite.rotation = (terminationPosition - startPos).normalized().angle()
+	leafSprite.self_modulate = Color.white if fromTile.ownerId == Globals.OWNER_PLAYER else Color.orangered
 	if (terminationPosition - startPos).x < 0:
 		leafSprite.flip_v = true
 		leafSprite.rotation -= deg2rad(40)
