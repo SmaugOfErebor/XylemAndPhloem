@@ -44,6 +44,7 @@ func _process(delta):
 	unspendableCurrency += unspendablePerSec * delta
 	# Attempt to convert unspendable currency based on total sunlight
 	var maximumConvertedCurrency: float = get_total_sunlight() * delta
+	var oldSpendableInt: int = getSpendableAsInt()
 	if maximumConvertedCurrency > unspendableCurrency:
 		spendablePerSec = unspendableCurrency * (1.0 / delta)
 		spendableCurrency += unspendableCurrency
@@ -52,6 +53,8 @@ func _process(delta):
 		spendablePerSec = maximumConvertedCurrency * (1.0 / delta)
 		spendableCurrency += maximumConvertedCurrency
 		unspendableCurrency -= maximumConvertedCurrency
+	if ownerId == Globals.OWNER_PLAYER and getSpendableAsInt() > oldSpendableInt:
+		Globals.emit_signal("player_currency_converted")
 
 func get_total_nutrients() -> int:
 	# Add one to account for the first root

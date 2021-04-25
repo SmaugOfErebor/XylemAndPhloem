@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://resources/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://scenes/root_2d.gd" type="Script" id=2]
@@ -8,19 +8,75 @@
 [ext_resource path="res://scenes/currency_display.gd" type="Script" id=6]
 [ext_resource path="res://images/tile_outline_white.png" type="Texture" id=7]
 [ext_resource path="res://scenes/snailbert.tscn" type="PackedScene" id=8]
+[ext_resource path="res://images/unspendable_icon.png" type="Texture" id=9]
+[ext_resource path="res://images/spendable_icon.png" type="Texture" id=10]
+[ext_resource path="res://images/arrow_anim.png" type="Texture" id=11]
 
 [sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0, 0, 0, 0.505882 )
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
+bg_color = Color( 0, 0, 0, 0.682353 )
 border_color = Color( 0, 0, 0, 1 )
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 corner_detail = 20
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 11 )
+region = Rect2( 160, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 11 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 11 )
+region = Rect2( 16, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 11 )
+region = Rect2( 32, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 11 )
+region = Rect2( 48, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 11 )
+region = Rect2( 64, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 11 )
+region = Rect2( 80, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 11 )
+region = Rect2( 96, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 11 )
+region = Rect2( 112, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 11 )
+region = Rect2( 128, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 11 )
+region = Rect2( 144, 0, 16, 16 )
+
+[sub_resource type="SpriteFrames" id=13]
+animations = [ {
+"frames": [ SubResource( 2 ) ],
+"loop": false,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
+"loop": false,
+"name": "flow",
+"speed": 30.0
+} ]
 
 [node name="root_node" type="Node"]
 
@@ -111,9 +167,9 @@ position = Vector2( -32, -11 )
 
 [node name="fg" type="CanvasLayer" parent="."]
 
-[node name="currency_display" type="PanelContainer" parent="fg"]
-anchor_right = 0.3
-anchor_bottom = 0.08
+[node name="currency_display" type="Panel" parent="fg"]
+anchor_right = 0.2
+anchor_bottom = 0.105
 margin_left = 5.0
 margin_top = 5.0
 custom_styles/panel = SubResource( 1 )
@@ -122,25 +178,93 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="GridContainer" type="GridContainer" parent="fg/currency_display"]
-margin_left = 1.0
-margin_top = 1.0
-margin_right = 301.2
-margin_bottom = 42.0
+[node name="unspendable_grid" type="GridContainer" parent="fg/currency_display"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 302.2
+margin_bottom = 58.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="spendable_currency" type="RichTextLabel" parent="fg/currency_display/GridContainer"]
-margin_right = 300.0
-margin_bottom = 18.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "Spendable Currency: "
+[node name="icon" type="TextureRect" parent="fg/currency_display/unspendable_grid"]
+margin_right = 16.0
+margin_bottom = 53.0
+texture = ExtResource( 9 )
 
-[node name="unspendable_currency" type="RichTextLabel" parent="fg/currency_display/GridContainer"]
-margin_top = 22.0
-margin_right = 300.0
-margin_bottom = 40.0
+[node name="text" type="RichTextLabel" parent="fg/currency_display/unspendable_grid"]
+margin_left = 20.0
+margin_right = 297.0
+margin_bottom = 53.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-text = "Unspendable Currency: "
+text = "###"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="conversion_control" type="Control" parent="fg/currency_display"]
+margin_left = 22.0
+margin_top = 20.0
+margin_right = 324.2
+margin_bottom = 78.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="anim" type="AnimatedSprite" parent="fg/currency_display/conversion_control"]
+modulate = Color( 0.00392157, 0.490196, 0, 1 )
+position = Vector2( 8, 8 )
+frames = SubResource( 13 )
+animation = "flow"
+frame = 9
+playing = true
+
+[node name="text" type="RichTextLabel" parent="fg/currency_display/conversion_control"]
+anchor_left = 0.0761085
+anchor_right = 0.0761085
+margin_left = -3.0
+margin_top = 3.0
+margin_right = 146.0
+margin_bottom = 61.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "###"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="spendable_grid" type="GridContainer" parent="fg/currency_display"]
+margin_left = 5.0
+margin_top = 38.0
+margin_right = 302.2
+margin_bottom = 96.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="icon" type="TextureRect" parent="fg/currency_display/spendable_grid"]
+margin_right = 16.0
+margin_bottom = 58.0
+texture = ExtResource( 10 )
+
+[node name="text" type="RichTextLabel" parent="fg/currency_display/spendable_grid"]
+margin_left = 20.0
+margin_right = 297.0
+margin_bottom = 58.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "###"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="animation_finished" from="fg/currency_display/conversion_control/anim" to="fg/currency_display" method="_on_anim_animation_finished"]

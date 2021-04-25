@@ -11,6 +11,8 @@ const OWNER_NONE: int = 0
 const OWNER_PLAYER: int = 1
 const OWNER_COMPUTER: int = 2
 
+signal player_currency_converted()
+
 func get_tiles() -> TileMap:
 	 return get_tree().get_root().get_node("root_node").get_node("root_2d").get_node("tiles") as TileMap
 
