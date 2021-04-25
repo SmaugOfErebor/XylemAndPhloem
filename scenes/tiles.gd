@@ -101,19 +101,23 @@ func addChildTileConnection(fromTile: Tile, toTile: Tile, tileType: int, ownerId
 
 func reevaluateSunlight(tile: Tile):
 	var numLeaves: int = 0
-	for i in range(get_used_rect().position.y, -1):
+	for i in range(get_used_rect().position.y, 0):
+		# Skip the blank tiles at the bottom
+		if int(tile.position.x) % 2 == 1 and i == -1:
+			continue
+		
+		var tileId: int
+		match numLeaves:
+			0: tileId = Globals.TID_SUNLIGHT_100
+			1: tileId = Globals.TID_SUNLIGHT_80
+			2: tileId = Globals.TID_SUNLIGHT_60
+			3: tileId = Globals.TID_SUNLIGHT_40
+			4: tileId = Globals.TID_SUNLIGHT_20
+			_: tileId = Globals.TID_TRANSPARENT
 		var currentTile: Tile = getTile(Vector2(tile.position.x, i))
 		if currentTile.hasLeaf:
 			numLeaves += 1
-		var tileId: int
-		match numLeaves:
-			0: tileId = 4
-			1: tileId = 5
-			2: tileId = 6
-			3: tileId = 7
-			4: tileId = 8
-			_: tileId = 9
-		addTile(tileId, currentTile.position)
+		updateTile(tileId, currentTile.position)
 
 func calculateCost(from: Tile, to: Tile) -> int:
 	var ownerCost: int = 0
@@ -183,6 +187,10 @@ func addTile(tileId: int, position: Vector2):
 	var tile: Tile = Tile.new(tileId, position)
 	set_cellv(tile.position, tile.tileId)
 	tileData[tile.position] = tile
+
+func updateTile(tileId: int, position: Vector2):
+	getTile(position).tileId = tileId
+	set_cellv(position, tileId)
 	
 # Gets a tile from the tile data based on coordinate
 func getTile(position: Vector2) -> Tile:
@@ -246,7 +254,7 @@ func tempGenerate():
 
 			if y < 0:
 				# Above ground
-				addTile(Globals.TID_SUNLIGHT, Vector2(x, y))
+				addTile(Globals.TID_SUNLIGHT_100, Vector2(x, y))
 			else:
 				# Below ground
 				addTile(Globals.TID_DIRT, Vector2(x, y))
