@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://resources/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://scenes/root_2d.gd" type="Script" id=2]
 [ext_resource path="res://scenes/camera.gd" type="Script" id=3]
 [ext_resource path="res://scenes/tiles.gd" type="Script" id=4]
+[ext_resource path="res://scenes/cos_sel.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/currency_display.gd" type="Script" id=6]
 [ext_resource path="res://images/tile_outline_white.png" type="Texture" id=7]
 
@@ -76,110 +77,33 @@ script = ExtResource( 4 )
 
 [node name="tile_highlight" type="Sprite" parent="root_2d/tiles"]
 visible = false
+z_index = 100
 texture = ExtResource( 7 )
 centered = false
 
 [node name="tile_select_highlight" type="Sprite" parent="root_2d/tiles"]
 visible = false
 self_modulate = Color( 0, 0.929412, 1, 1 )
+z_index = 99
 texture = ExtResource( 7 )
 centered = false
 
-[node name="ct" type="Sprite" parent="root_2d/tiles/tile_select_highlight"]
-position = Vector2( 0, -50 )
-texture = ExtResource( 7 )
-centered = false
+[node name="ct" parent="root_2d/tiles/tile_select_highlight" instance=ExtResource( 5 )]
 
-[node name="CostLabel" type="Label" parent="root_2d/tiles/tile_select_highlight/ct"]
-margin_left = 9.0
-margin_top = 19.0
-margin_right = 49.0
-margin_bottom = 33.0
-text = "00"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="rt" parent="root_2d/tiles/tile_select_highlight" instance=ExtResource( 5 )]
+position = Vector2( 44, -25 )
 
-[node name="rt" type="Sprite" parent="root_2d/tiles/tile_select_highlight"]
-position = Vector2( 44, -26 )
-texture = ExtResource( 7 )
-centered = false
+[node name="rb" parent="root_2d/tiles/tile_select_highlight" instance=ExtResource( 5 )]
+position = Vector2( 44, 25 )
 
-[node name="CostLabel" type="Label" parent="root_2d/tiles/tile_select_highlight/rt"]
-margin_left = 10.0
-margin_top = 20.0
-margin_right = 50.0
-margin_bottom = 34.0
-text = "00"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="rb" type="Sprite" parent="root_2d/tiles/tile_select_highlight"]
-position = Vector2( 44, 24 )
-texture = ExtResource( 7 )
-centered = false
-
-[node name="CostLabel" type="Label" parent="root_2d/tiles/tile_select_highlight/rb"]
-margin_left = 9.0
-margin_top = 21.0
-margin_right = 49.0
-margin_bottom = 35.0
-text = "00"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="cb" type="Sprite" parent="root_2d/tiles/tile_select_highlight"]
+[node name="cb" parent="root_2d/tiles/tile_select_highlight" instance=ExtResource( 5 )]
 position = Vector2( 0, 50 )
-texture = ExtResource( 7 )
-centered = false
 
-[node name="CostLabel" type="Label" parent="root_2d/tiles/tile_select_highlight/cb"]
-margin_left = 9.0
-margin_top = 20.0
-margin_right = 49.0
-margin_bottom = 34.0
-text = "00"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="lb" type="Sprite" parent="root_2d/tiles/tile_select_highlight"]
+[node name="lb" parent="root_2d/tiles/tile_select_highlight" instance=ExtResource( 5 )]
 position = Vector2( -44, 25 )
-texture = ExtResource( 7 )
-centered = false
 
-[node name="CostLabel" type="Label" parent="root_2d/tiles/tile_select_highlight/lb"]
-margin_left = 9.0
-margin_top = 21.0
-margin_right = 49.0
-margin_bottom = 35.0
-text = "00"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="lt" type="Sprite" parent="root_2d/tiles/tile_select_highlight"]
+[node name="lt" parent="root_2d/tiles/tile_select_highlight" instance=ExtResource( 5 )]
 position = Vector2( -44, -25 )
-texture = ExtResource( 7 )
-centered = false
-
-[node name="CostLabel" type="Label" parent="root_2d/tiles/tile_select_highlight/lt"]
-margin_left = 9.0
-margin_top = 20.0
-margin_right = 49.0
-margin_bottom = 34.0
-text = "00"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="fg" type="CanvasLayer" parent="."]
 
