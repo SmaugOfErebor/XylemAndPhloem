@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://resources/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://scenes/root_2d.gd" type="Script" id=2]
@@ -13,8 +13,9 @@
 [ext_resource path="res://images/arrow_anim.png" type="Texture" id=11]
 [ext_resource path="res://images/background.png" type="Texture" id=12]
 [ext_resource path="res://resources/font.tres" type="DynamicFont" id=13]
+[ext_resource path="res://sounds/leaf.wav" type="AudioStream" id=14]
 
-[sub_resource type="StyleBoxFlat" id=13]
+[sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0, 0, 0.682353 )
 border_color = Color( 0, 0, 0, 1 )
 corner_radius_top_left = 5
@@ -23,7 +24,7 @@ corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 corner_detail = 20
 
-[sub_resource type="AtlasTexture" id=14]
+[sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 11 )
 region = Rect2( 160, 0, 16, 16 )
 
@@ -67,9 +68,9 @@ region = Rect2( 128, 0, 16, 16 )
 atlas = ExtResource( 11 )
 region = Rect2( 144, 0, 16, 16 )
 
-[sub_resource type="SpriteFrames" id=15]
+[sub_resource type="SpriteFrames" id=13]
 animations = [ {
-"frames": [ SubResource( 14 ) ],
+"frames": [ SubResource( 2 ) ],
 "loop": false,
 "name": "idle",
 "speed": 5.0
@@ -81,6 +82,12 @@ animations = [ {
 } ]
 
 [node name="root_node" type="Node"]
+
+[node name="audio_players" type="Node" parent="."]
+
+[node name="leaf_sound_player" type="AudioStreamPlayer" parent="audio_players"]
+stream = ExtResource( 14 )
+volume_db = -5.0
 
 [node name="bg" type="Control" parent="."]
 anchor_right = 1.0
@@ -175,7 +182,7 @@ margin_left = 5.0
 margin_top = 5.0
 margin_right = 1.39999
 margin_bottom = 7.0
-custom_styles/panel = SubResource( 13 )
+custom_styles/panel = SubResource( 1 )
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -220,7 +227,7 @@ __meta__ = {
 [node name="anim" type="AnimatedSprite" parent="fg/currency_display/conversion_control"]
 modulate = Color( 0.00392157, 0.490196, 0, 1 )
 position = Vector2( 11, 11 )
-frames = SubResource( 15 )
+frames = SubResource( 13 )
 animation = "flow"
 frame = 9
 playing = true

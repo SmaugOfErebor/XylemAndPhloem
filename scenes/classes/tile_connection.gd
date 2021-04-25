@@ -71,6 +71,7 @@ func add_leaf():
 		leafSprite.rotation += deg2rad(40)
 	add_child(leafSprite)
 	toTile.hasLeaf = true
+	Audio.playLeafSound()
 
 func remove_leaf():
 	remove_child(leafSprite)
