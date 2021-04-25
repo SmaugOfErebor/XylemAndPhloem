@@ -27,6 +27,8 @@ var playerGameTree
 var computerGameTree
 var ai: AI
 
+var waitingGameOverTransition := false
+
 func _ready():
 	# Generate temporary map
 	tempGenerate()
@@ -42,7 +44,11 @@ func _ready():
 	connect("game_over", self, "onGameOver")
 	
 func onGameOver(won: bool):
-	Globals.get_root2d().showTitleScreen()
+	if waitingGameOverTransition:
+		return
+	waitingGameOverTransition = true
+	yield(get_tree().create_timer(1.0), "timeout")
+	Globals.get_root2d().showGameOverScreen(won)
 	
 # When the user clicks a tile
 func tilePressed(tile: Tile):
