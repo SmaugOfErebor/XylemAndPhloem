@@ -7,7 +7,7 @@ var trunkTile: Tile
 var rootTile: Tile
 
 const UNSPENDABLE_CURRENCY_RATE: float = 0.05
-const LEAF_STRENGTH: float = 0.01
+const LEAF_STRENGTH: float = 0.1
 
 var unspendableCurrency: float = 0.0
 var spendableCurrency: float = 100.0
@@ -58,7 +58,7 @@ func get_total_roots() -> int:
 	return rootTile.get_descendant_tile_count() + 1
 
 func get_total_sunlight() -> float:
-	return get_total_leaves() * Globals.get_tiles().sunlightIntensity * LEAF_STRENGTH
+	return trunkTile.getSelfAndDescendantSunlight() * LEAF_STRENGTH
 
 func get_total_leaves() -> int:
 	# TODO: Get total leaves that are receiving sunlight

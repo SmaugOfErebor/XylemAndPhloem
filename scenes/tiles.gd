@@ -22,9 +22,6 @@ onready var rb: Sprite = $tile_select_highlight/rb
 
 var tileData := {}
 
-# Sunlight should stay within the range of 0-1 (1 being 100%)
-var sunlightIntensity: float = 1.0
-
 var playerGameTree
 var computerGameTree
 
