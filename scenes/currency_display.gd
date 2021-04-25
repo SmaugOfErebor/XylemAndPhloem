@@ -14,9 +14,9 @@ func _process(delta):
 		return
 	
 	var tileMap = Globals.get_tiles()
-	unspendableCurrency.text = str(tileMap.playerGameTree.getUnspendableAsInt())
-	conversion.text = str(round_to_dec(tileMap.playerGameTree.unspendablePerSec, 2)) + "/sec"
-	spendableCurrency.text = str(tileMap.playerGameTree.getSpendableAsInt()) + " (" + str(round_to_dec(tileMap.playerGameTree.spendablePerSec, 2)) + "/sec)"
+	unspendableCurrency.text = str(tileMap.playerGameTree.getUnspendableAsInt()) + " (" + str(round_to_dec(tileMap.playerGameTree.unspendablePerSec, 2)) + "/sec)"
+	conversion.text = str(round_to_dec(tileMap.playerGameTree.spendablePerSec, 2)) + "/sec"
+	spendableCurrency.text = str(tileMap.playerGameTree.getSpendableAsInt())
 
 func _on_player_currency_converted():
 	flashConversion()
