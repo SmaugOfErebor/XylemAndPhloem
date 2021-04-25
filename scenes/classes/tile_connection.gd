@@ -63,6 +63,7 @@ func add_leaf():
 	leafSprite.position = terminationPosition
 	add_child(leafSprite)
 	toTile.hasLeaf = true
+	Audio.playLeafSound()
 
 func remove_leaf():
 	remove_child(leafSprite)

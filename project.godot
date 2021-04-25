@@ -65,6 +65,7 @@ config/windows_native_icon="res://icon.ico"
 
 Utils="*res://autoloads/utils.gd"
 Globals="*res://autoloads/globals.gd"
+Audio="*res://autoloads/audio.gd"
 
 [global]
 
