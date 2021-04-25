@@ -41,3 +41,19 @@ func getBaseCost() -> int:
 	if tileId == Globals.TID_ROCK:
 		return 5
 	return 1
+
+func getSelfAndDescendantSunlight() -> float:
+	var sunlightTotal: float = 0.0
+	
+	if hasLeaf:
+		match tileId:
+			Globals.TID_SUNLIGHT_100: sunlightTotal += 1.0
+			Globals.TID_SUNLIGHT_80: sunlightTotal += 0.8
+			Globals.TID_SUNLIGHT_60: sunlightTotal += 0.6
+			Globals.TID_SUNLIGHT_40: sunlightTotal += 0.4
+			Globals.TID_SUNLIGHT_20: sunlightTotal += 0.2
+	
+	for outgoingConnection in outgoingConnections:
+		sunlightTotal += outgoingConnection.toTile.getSelfAndDescendantSunlight()
+	
+	return sunlightTotal
