@@ -10,6 +10,8 @@ export var topPos: float = 0.0
 export var bottomPos: float = 396.0
 
 func _process(delta):
+	if delta == 0: pass
+	
 	if Input.is_action_just_pressed("move_cam_down"):
 		moveToBottom()
 	elif Input.is_action_just_pressed("move_cam_up"):

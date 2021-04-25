@@ -38,6 +38,7 @@ func _process(delta):
 	# Check due to division
 	if delta <= 0:
 		return
+
 	# Collect unspendable currency based on the number of roots the tree has
 	unspendablePerSec = get_total_roots() * UNSPENDABLE_CURRENCY_RATE
 	unspendableCurrency += unspendablePerSec * delta

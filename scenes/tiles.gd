@@ -91,6 +91,11 @@ func addChildTileConnection(fromTile: Tile, toTile: Tile, tileType: int, ownerId
 	fromTile.outgoingConnections.append(newConnection)
 	toTile.incomingConnection = newConnection
 	toTile.ownerId = ownerId
+	
+	if tileType == 0:
+		newConnection.add_leaf()
+		if fromTile.incomingConnection != null:
+			fromTile.incomingConnection.remove_leaf()
 
 func calculateCost(from: Tile, to: Tile) -> int:
 	var ownerCost: int = 0
