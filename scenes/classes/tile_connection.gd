@@ -1,6 +1,8 @@
 class_name TileConnection
 extends Line2D
 
+const GROW_POINT_TIME: float = 0.03
+
 const plRootNoise: Texture = preload("res://images/root_noise.png")
 const plTrunkNoise: Texture = preload("res://images/trunk_noise.png")
 
@@ -21,6 +23,8 @@ var toTile: Tile
 var leafSprite: Sprite
 var startPos: Vector2
 var terminationPosition: Vector2
+
+var generatedPointsToAdd := []
 
 var waterBenefit: int = 0
 
@@ -56,12 +60,23 @@ func _init(fromTile: Tile, toTile: Tile, lineType: int):
 				variation = Vector2(rand_range(-2, 2), rand_range(-2, 2))
 			elif randf() < TRUNK_VARIATION_PROB:
 				variation = Vector2(rand_range(-2, 2), rand_range(-2, 2))
-		add_point(startPos + (((i as float) / (steps as float)) * fullVec) + variation)
+		generatedPointsToAdd.append(startPos + (((i as float) / (steps as float)) * fullVec) + variation)
 	
 	reevaluateThickness()
 	match lineType:
 		lineTypes.branch: Audio.playLeafSound()
 		lineTypes.root: Audio.playRootSound()
+		
+	generateNextPoint()
+
+func generateNextPoint():
+	var point: Vector2 = generatedPointsToAdd.pop_front()
+	add_point(point)
+	if leafSprite:
+		leafSprite.position = point
+	if generatedPointsToAdd.size() > 0:
+		yield(Globals.get_tiles().get_tree().create_timer(GROW_POINT_TIME), "timeout")
+		generateNextPoint()
 
 func changeWaterBenefit(amount: int):
 	if amount <= 0:
@@ -71,7 +86,7 @@ func changeWaterBenefit(amount: int):
 func add_leaf():
 	leafSprite = Sprite.new()
 	leafSprite.texture = load("res://images/leaf_100.png")
-	leafSprite.position = terminationPosition
+	leafSprite.position = terminationPosition if generatedPointsToAdd.size() <= 0 else generatedPointsToAdd.front()
 	leafSprite.rotation = (terminationPosition - startPos).normalized().angle()
 	if (terminationPosition - startPos).x < 0:
 		leafSprite.flip_v = true
