@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://resources/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://scenes/root_2d.gd" type="Script" id=2]
@@ -11,7 +11,8 @@
 [ext_resource path="res://images/unspendable_icon.png" type="Texture" id=9]
 [ext_resource path="res://images/spendable_icon.png" type="Texture" id=10]
 [ext_resource path="res://images/arrow_anim.png" type="Texture" id=11]
-[ext_resource path="res://resources/font.tres" type="DynamicFont" id=12]
+[ext_resource path="res://images/background.png" type="Texture" id=12]
+[ext_resource path="res://resources/font.tres" type="DynamicFont" id=13]
 
 [sub_resource type="StyleBoxFlat" id=13]
 bg_color = Color( 0, 0, 0, 0.682353 )
@@ -88,13 +89,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="above_bg_rect" type="ColorRect" parent="bg"]
+[node name="above_bg_rect" type="TextureRect" parent="bg"]
 anchor_right = 1.0
 anchor_bottom = 0.83
-color = Color( 0, 1, 0.929412, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+texture = ExtResource( 12 )
+expand = true
+stretch_mode = 1
 
 [node name="mid_line_rect" type="ColorRect" parent="bg"]
 anchor_top = 0.82
@@ -165,7 +165,7 @@ position = Vector2( -44, -25 )
 
 [node name="snailbert" parent="root_2d/tiles" instance=ExtResource( 8 )]
 position = Vector2( -32, -11 )
-frame = 1
+frame = 2
 
 [node name="fg" type="CanvasLayer" parent="."]
 
@@ -201,7 +201,7 @@ margin_right = 321.0
 margin_bottom = 63.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/normal_font = ExtResource( 12 )
+custom_fonts/normal_font = ExtResource( 13 )
 text = "159"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -233,7 +233,7 @@ margin_right = 173.0
 margin_bottom = 62.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/normal_font = ExtResource( 12 )
+custom_fonts/normal_font = ExtResource( 13 )
 text = "159"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -259,7 +259,7 @@ margin_right = 322.0
 margin_bottom = 59.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/normal_font = ExtResource( 12 )
+custom_fonts/normal_font = ExtResource( 13 )
 text = "159"
 __meta__ = {
 "_edit_use_anchors_": false
