@@ -25,3 +25,6 @@ func get_tiles() -> TileMap:
 
 func get_camera() -> GameCam:
 	return get_root2d().get_node("camera") as GameCam
+
+func get_snailbert() -> AnimatedSprite:
+	return get_root2d().get_node("snails").get_node("snailbert") as AnimatedSprite
