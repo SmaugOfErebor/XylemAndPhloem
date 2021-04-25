@@ -48,11 +48,11 @@ func tilePressed(tile: Tile):
 			selectedFromTile = tile
 	else:
 		# This is the user's "to" tile selection
-		if attemptToGrow(playerGameTree, selectedFromTile, tile):
-			selectedFromTile = tile
+		if selectedFromTile == tile:
+			removeSelectionHighlight()
 		else:
-			selectedFromTile = null
-			tileSelectHighlight.visible = false
+			if attemptToGrow(playerGameTree, selectedFromTile, tile):
+				selectedFromTile = tile
 
 func attemptToGrow(treeUser, from: Tile, to: Tile) -> bool:
 	if canGrow(treeUser, from, to):
@@ -94,9 +94,13 @@ func _physics_process(delta):
 		if selectedFromTile.hasConnections() and selectedFromTile.tileId != Globals.TID_TRANSPARENT:
 			# Select a from tile
 			if not setTileSelectHighlight(selectedFromTile):
-				selectedFromTile = null
+				removeSelectionHighlight()
 		else:
-			selectedFromTile = null
+			removeSelectionHighlight()
+			
+func removeSelectionHighlight():
+	selectedFromTile = null
+	tileSelectHighlight.visible = false
 
 func addChildTileConnection(fromTile: Tile, toTile: Tile, tileType: int, ownerId: int):
 	var newConnection := TileConnection.new(fromTile, toTile, tileType)
