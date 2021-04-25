@@ -97,6 +97,7 @@ func canGrow(treeUser, from: Tile, to: Tile) -> bool:
 
 func _physics_process(delta):
 	ai.update(delta)
+	
 	if selectedFromTile:
 		if selectedFromTile.hasConnections() and selectedFromTile.tileId != Globals.TID_TRANSPARENT:
 			# Select a from tile

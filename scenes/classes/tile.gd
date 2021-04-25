@@ -25,6 +25,9 @@ func remove_connections(removeFromParentOutgoing: bool = true):
 			incomingConnection.fromTile.outgoingConnections.remove(
 				incomingConnection.fromTile.outgoingConnections.find(incomingConnection)
 			)
+			if atleast_one_descendant_has_leaf() and incomingConnection.fromTile.incomingConnection:
+				if incomingConnection.fromTile.outgoingConnections.size() <= 0:
+					incomingConnection.fromTile.incomingConnection.add_leaf()
 			incomingConnection.reevaluateThickness()
 		incomingConnection = null
 		
@@ -33,8 +36,22 @@ func remove_connections(removeFromParentOutgoing: bool = true):
 		outgoingConnection.toTile.remove_connections(false)
 	outgoingConnections = []
 	
+	hasLeaf = false
+	
 	if Globals.get_tiles().selectedFromTile == self:
 		Globals.get_tiles().removeSelectionHighlight()
+
+func atleast_one_descendant_has_leaf() -> bool:
+	# If we have a leaf, return
+	if hasLeaf:
+		return true
+	# Start with immediate children
+	var descendantCount: int = outgoingConnections.size()
+	# Check if they have a leaf
+	for outgoingConnection in outgoingConnections:
+		if outgoingConnection.toTile.atleast_one_descendant_has_leaf():
+			return true
+	return false
 
 func get_descendant_tile_count() -> int:
 	# Start with immediate children
