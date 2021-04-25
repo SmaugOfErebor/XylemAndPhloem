@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://resources/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://scenes/root_2d.gd" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://images/unspendable_icon.png" type="Texture" id=9]
 [ext_resource path="res://images/spendable_icon.png" type="Texture" id=10]
 [ext_resource path="res://images/arrow_anim.png" type="Texture" id=11]
+[ext_resource path="res://images/background.png" type="Texture" id=12]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0, 0, 0.682353 )
@@ -87,13 +88,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="above_bg_rect" type="ColorRect" parent="bg"]
+[node name="above_bg_rect" type="TextureRect" parent="bg"]
 anchor_right = 1.0
 anchor_bottom = 0.83
-color = Color( 0, 1, 0.929412, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+texture = ExtResource( 12 )
+expand = true
+stretch_mode = 1
 
 [node name="mid_line_rect" type="ColorRect" parent="bg"]
 anchor_top = 0.82
