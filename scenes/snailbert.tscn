@@ -1,8 +1,9 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://scenes/snailbert.gd" type="Script" id=1]
 [ext_resource path="res://images/snailbert.png" type="Texture" id=2]
 [ext_resource path="res://images/z_particle.png" type="Texture" id=3]
+[ext_resource path="res://images/heart.png" type="Texture" id=4]
 
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 2 )
@@ -73,6 +74,9 @@ animations = [ {
 [sub_resource type="Gradient" id=18]
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
 
+[sub_resource type="CircleShape2D" id=19]
+radius = 7.51665
+
 [node name="snailbert" type="AnimatedSprite"]
 position = Vector2( -12, -13 )
 scale = Vector2( 2, 2 )
@@ -103,4 +107,18 @@ initial_velocity = 3.0
 initial_velocity_random = 0.2
 color_ramp = SubResource( 18 )
 
+[node name="snail_detector" type="Area2D" parent="."]
+collision_layer = 512
+collision_mask = 512
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="snail_detector"]
+shape = SubResource( 19 )
+
+[node name="heart" type="Sprite" parent="."]
+position = Vector2( 0.5, -8 )
+texture = ExtResource( 4 )
+
+[node name="heart_tween" type="Tween" parent="."]
+
 [connection signal="timeout" from="next_event_timer" to="." method="_on_NextEventTimer_timeout"]
+[connection signal="area_entered" from="snail_detector" to="." method="_on_snail_detector_area_entered"]
