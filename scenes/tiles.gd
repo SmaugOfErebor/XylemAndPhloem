@@ -140,6 +140,7 @@ func reevaluateSunlight(tile: Tile):
 			_: tileId = Globals.TID_TRANSPARENT
 		var currentTile: Tile = getTile(Vector2(tile.position.x, i))
 		if currentTile.hasLeaf:
+			currentTile.incomingConnection.reevaluateLeaf(tileId)
 			numLeaves += 1
 		updateTile(tileId, currentTile.position)
 

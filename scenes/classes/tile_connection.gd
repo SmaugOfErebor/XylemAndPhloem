@@ -39,7 +39,7 @@ func _init(fromTile: Tile, toTile: Tile, lineType: int):
 
 func add_leaf():
 	leafSprite = Sprite.new()
-	leafSprite.texture = load("res://images/leaf.png")
+	leafSprite.texture = load("res://images/leaf_100.png")
 	leafSprite.position = terminationPosition
 	add_child(leafSprite)
 	toTile.hasLeaf = true
@@ -59,3 +59,12 @@ func reevaluateThickness():
 	
 	if fromTile.incomingConnection != null:
 		fromTile.incomingConnection.reevaluateThickness()
+
+func reevaluateLeaf(tileId: int):
+	match tileId:
+		Globals.TID_SUNLIGHT_100: leafSprite.texture = load("res://images/leaf_100.png")
+		Globals.TID_SUNLIGHT_80: leafSprite.texture = load("res://images/leaf_80.png")
+		Globals.TID_SUNLIGHT_60: leafSprite.texture = load("res://images/leaf_60.png")
+		Globals.TID_SUNLIGHT_40: leafSprite.texture = load("res://images/leaf_40.png")
+		Globals.TID_SUNLIGHT_20: leafSprite.texture = load("res://images/leaf_20.png")
+		Globals.TID_TRANSPARENT: leafSprite.texture = load("res://images/leaf_00.png")
