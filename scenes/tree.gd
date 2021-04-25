@@ -60,10 +60,6 @@ func get_total_roots() -> int:
 func get_total_sunlight() -> float:
 	return trunkTile.getSelfAndDescendantSunlight() * LEAF_STRENGTH
 
-func get_total_leaves() -> int:
-	# TODO: Get total leaves that are receiving sunlight
-	return 500
-
 func getSpendableAsInt() -> int:
 	return floor(spendableCurrency) as int
 	
