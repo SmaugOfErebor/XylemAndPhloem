@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://resources/font_outlined_big.tres" type="DynamicFont" id=1]
 [ext_resource path="res://scenes/root_2d.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://resources/basic_theme.tres" type="Theme" id=4]
 [ext_resource path="res://sounds/snip.wav" type="AudioStream" id=5]
 [ext_resource path="res://scenes/currency_display.gd" type="Script" id=6]
+[ext_resource path="res://images/sound_effect_button_on.png" type="Texture" id=7]
 [ext_resource path="res://scenes/snailbert.tscn" type="PackedScene" id=8]
 [ext_resource path="res://images/unspendable_icon.png" type="Texture" id=9]
 [ext_resource path="res://images/spendable_icon.png" type="Texture" id=10]
@@ -18,6 +19,9 @@
 [ext_resource path="res://sounds/bg_music_loop.ogg" type="AudioStream" id=17]
 [ext_resource path="res://sounds/snailbert_toms.ogg" type="AudioStream" id=18]
 [ext_resource path="res://scenes/snailbert_toms_player.gd" type="Script" id=19]
+[ext_resource path="res://images/music_button_on.png" type="Texture" id=20]
+[ext_resource path="res://scenes/music_toggle_button.gd" type="Script" id=21]
+[ext_resource path="res://scenes/sound_effect_toggle_button.gd" type="Script" id=22]
 
 [sub_resource type="Animation" id=1]
 resource_name = "title_bounce"
@@ -38,6 +42,10 @@ tracks/0/keys = {
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0, 0, 0, 0.682353 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
 border_color = Color( 0, 0, 0, 1 )
 corner_radius_top_left = 5
 corner_radius_top_right = 5
@@ -101,6 +109,19 @@ animations = [ {
 "name": "flow",
 "speed": 30.0
 } ]
+
+[sub_resource type="StyleBoxFlat" id=15]
+bg_color = Color( 0, 0, 0, 0.682353 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 20
 
 [node name="root_node" type="Node"]
 
@@ -317,11 +338,17 @@ margin_right = 302.2
 margin_bottom = 58.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="icon" type="TextureRect" parent="fg/currency_display/unspendable_grid"]
 margin_right = 16.0
 margin_bottom = 53.0
 texture = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="text" type="RichTextLabel" parent="fg/currency_display/unspendable_grid"]
 margin_left = 24.0
@@ -374,11 +401,17 @@ margin_right = 302.2
 margin_bottom = 108.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="icon" type="TextureRect" parent="fg/currency_display/spendable_grid"]
 margin_right = 16.0
 margin_bottom = 58.0
 texture = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="text" type="RichTextLabel" parent="fg/currency_display/spendable_grid"]
 margin_left = 25.0
@@ -400,6 +433,9 @@ margin_right = 302.2
 margin_bottom = 108.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="text" type="Label" parent="fg/currency_display/bonus_grid"]
 margin_left = 81.0
@@ -411,7 +447,48 @@ size_flags_vertical = 3
 custom_fonts/font = ExtResource( 13 )
 text = "+??"
 align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="mute_buttons" type="Panel" parent="fg"]
+margin_left = 925.0
+margin_top = 545.0
+margin_right = 1020.0
+margin_bottom = 595.0
+custom_styles/panel = SubResource( 15 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="music_toggle_button" type="TextureButton" parent="fg/mute_buttons"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 45.0
+margin_bottom = 45.0
+texture_normal = ExtResource( 20 )
+expand = true
+stretch_mode = 4
+script = ExtResource( 21 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="sound_effect_toggle_button" type="TextureButton" parent="fg/mute_buttons"]
+margin_left = 50.0
+margin_top = 5.0
+margin_right = 90.0
+margin_bottom = 45.0
+texture_normal = ExtResource( 7 )
+expand = true
+stretch_mode = 4
+script = ExtResource( 22 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [connection signal="pressed" from="root_2d/title_screen/btn_control/play_btn" to="root_2d" method="_on_play_btn_pressed"]
 [connection signal="pressed" from="root_2d/game_over_screen/btn_control/menu_btn" to="root_2d" method="_on_menu_btn_pressed"]
 [connection signal="animation_finished" from="fg/currency_display/conversion_control/anim" to="fg/currency_display" method="_on_anim_animation_finished"]
+[connection signal="pressed" from="fg/mute_buttons/music_toggle_button" to="fg/mute_buttons/music_toggle_button" method="_on_music_toggle_button_pressed"]
+[connection signal="pressed" from="fg/mute_buttons/sound_effect_toggle_button" to="fg/mute_buttons/sound_effect_toggle_button" method="_on_sound_effect_toggle_button_pressed"]
