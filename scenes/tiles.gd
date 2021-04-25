@@ -30,7 +30,7 @@ func _ready():
 	# Generate temporary map
 	tempGenerate()
 	# Add the player and computer trees
-	playerGameTree = GameTree.new(Vector2(3, -1), Globals.OWNER_NONE)
+	playerGameTree = GameTree.new(Vector2(3, -1), Globals.OWNER_PLAYER)
 	computerGameTree = GameTree.new(Vector2(19, -1), Globals.OWNER_COMPUTER)
 	add_child(playerGameTree)
 	add_child(computerGameTree)
@@ -52,6 +52,8 @@ func tilePressed(tile: Tile):
 			removeSelectionHighlight()
 		else:
 			if attemptToGrow(playerGameTree, selectedFromTile, tile):
+				selectedFromTile = tile
+			elif tile.ownerId == Globals.OWNER_PLAYER:
 				selectedFromTile = tile
 
 func attemptToGrow(treeUser, from: Tile, to: Tile) -> bool:
