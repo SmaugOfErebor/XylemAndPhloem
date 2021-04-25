@@ -1,8 +1,12 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://scenes/classes/tile_connection.gd" type="Script" id=1]
 
+[sub_resource type="Curve" id=1]
+_data = [ Vector2( 0.140411, 0.736364 ), 0.0, 0.0, 0, 0, Vector2( 0.40411, 0.409091 ), 0.0, 0.0, 0, 0 ]
+
 [node name="Node2D" type="Line2D"]
 width = 3.0
+width_curve = SubResource( 1 )
 default_color = Color( 0.882353, 0.670588, 0.470588, 1 )
 script = ExtResource( 1 )

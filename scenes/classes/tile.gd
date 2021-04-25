@@ -20,6 +20,7 @@ func remove_connections(removeFromParentOutgoing: bool = true):
 			incomingConnection.fromTile.outgoingConnections.remove(
 				incomingConnection.fromTile.outgoingConnections.find(incomingConnection)
 			)
+			incomingConnection.reevaluateThickness()
 		incomingConnection = null
 		
 	ownerId = Globals.OWNER_NONE
