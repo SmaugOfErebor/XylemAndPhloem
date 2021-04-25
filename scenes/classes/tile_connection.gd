@@ -19,6 +19,7 @@ var fromTile: Tile
 var toTile: Tile
 
 var leafSprite: Sprite
+var startPos: Vector2
 var terminationPosition: Vector2
 
 const THICKNESS_POWER: float = 1.3
@@ -42,7 +43,7 @@ func _init(fromTile: Tile, toTile: Tile, lineType: int):
 	
 	# Store the termination position to draw a leaf at
 	terminationPosition = Globals.get_tiles().getCenterPixelPosition(toTile)
-	var startPos: Vector2 = Globals.get_tiles().getCenterPixelPosition(fromTile)
+	startPos = Globals.get_tiles().getCenterPixelPosition(fromTile)
 	var fullVec: Vector2 = terminationPosition - startPos
 	
 	var steps: int = POINT_ROOT_STEPS if lineType == lineTypes.root else POINT_TRUNK_STEPS
@@ -61,6 +62,13 @@ func add_leaf():
 	leafSprite = Sprite.new()
 	leafSprite.texture = load("res://images/leaf_100.png")
 	leafSprite.position = terminationPosition
+	leafSprite.rotation = (terminationPosition - startPos).normalized().angle()
+	if (terminationPosition - startPos).x < 0:
+		leafSprite.flip_v = true
+		leafSprite.rotation -= deg2rad(40)
+	else:
+		leafSprite.flip_v = false
+		leafSprite.rotation += deg2rad(40)
 	add_child(leafSprite)
 	toTile.hasLeaf = true
 
