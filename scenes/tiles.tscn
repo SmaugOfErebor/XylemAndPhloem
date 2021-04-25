@@ -42,3 +42,5 @@ position = Vector2( -44, 25 )
 
 [node name="lt" parent="tile_select_highlight" instance=ExtResource( 2 )]
 position = Vector2( -44, -25 )
+
+[node name="highlight_slide_tween" type="Tween" parent="tile_select_highlight"]

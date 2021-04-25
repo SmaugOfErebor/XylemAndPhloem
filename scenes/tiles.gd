@@ -5,6 +5,7 @@ const TILE_SIZE := Vector2(44, 50)
 const SCREEN_TILE_WIDTH: int = 23
 const HIGHLIGHT_COLOR_BUYABLE := Color.green
 const HIGHLIGHT_COLOR_NOT_BUYABLE := Color.red
+const FAN_OUT_DUR: float = 0.07
 
 var selectedFromTile: Tile = null
 
@@ -20,6 +21,15 @@ onready var lt: Sprite = $tile_select_highlight/lt
 onready var lb: Sprite = $tile_select_highlight/lb
 onready var rt: Sprite = $tile_select_highlight/rt
 onready var rb: Sprite = $tile_select_highlight/rb
+
+onready var ctTargetPos: Vector2 = ct.position
+onready var cbTargetPos: Vector2 = cb.position
+onready var ltTargetPos: Vector2 = lt.position
+onready var lbTargetPos: Vector2 = lb.position
+onready var rtTargetPos: Vector2 = rt.position
+onready var rbTargetPos: Vector2 = rb.position
+
+onready var highlightSlideTween: Tween = $tile_select_highlight/highlight_slide_tween
 
 var tileData := {}
 
@@ -57,6 +67,7 @@ func tilePressed(tile: Tile):
 		# Only if not the computer's tile
 		if tile.ownerId != Globals.OWNER_COMPUTER:
 			selectedFromTile = tile
+			startSelectFanOutTween()
 	else:
 		# This is the user's "to" tile selection
 		if selectedFromTile == tile:
@@ -64,8 +75,10 @@ func tilePressed(tile: Tile):
 		else:
 			if attemptToGrow(playerGameTree, selectedFromTile, tile):
 				selectedFromTile = tile
+				startSelectFanOutTween()
 			elif tile.ownerId == Globals.OWNER_PLAYER:
 				selectedFromTile = tile
+				startSelectFanOutTween()
 
 func attemptToGrow(treeUser, from: Tile, to: Tile) -> bool:
 	if canGrow(treeUser, from, to):
@@ -119,6 +132,16 @@ func _physics_process(delta):
 func removeSelectionHighlight():
 	selectedFromTile = null
 	tileSelectHighlight.visible = false
+
+func startSelectFanOutTween():
+	highlightSlideTween.stop_all()
+	highlightSlideTween.interpolate_property(ct, "position", Vector2.ZERO, ctTargetPos, FAN_OUT_DUR, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	highlightSlideTween.interpolate_property(cb, "position", Vector2.ZERO, cbTargetPos, FAN_OUT_DUR, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	highlightSlideTween.interpolate_property(lt, "position", Vector2.ZERO, ltTargetPos, FAN_OUT_DUR, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	highlightSlideTween.interpolate_property(lb, "position", Vector2.ZERO, lbTargetPos, FAN_OUT_DUR, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	highlightSlideTween.interpolate_property(rt, "position", Vector2.ZERO, rtTargetPos, FAN_OUT_DUR, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	highlightSlideTween.interpolate_property(rb, "position", Vector2.ZERO, rbTargetPos, FAN_OUT_DUR, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	highlightSlideTween.start()
 
 func addChildTileConnection(fromTile: Tile, toTile: Tile, tileType: int, ownerId: int):
 	var newConnection := TileConnection.new(fromTile, toTile, tileType)
