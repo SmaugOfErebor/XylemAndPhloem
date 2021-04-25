@@ -10,12 +10,14 @@ const UNSPENDABLE_CURRENCY_RATE: float = 0.05
 const LEAF_STRENGTH: float = 0.01
 
 var unspendableCurrency: float = 0.0
-var spendableCurrency: float = 0.0
+var spendableCurrency: float = 100.0
 var spendablePerSec: float = 0.0
 var unspendablePerSec: float = 0.0
+var ownerId: int = Globals.OWNER_NONE
 
-func _init(tileMapPosition: Vector2):
+func _init(tileMapPosition: Vector2, ownerId: int):
 	self.tileMapPosition = tileMapPosition
+	self.ownerId = ownerId
 	
 	var tileMap: TileMap = Globals.get_tiles()
 	var seedTile: Tile = tileMap.getTile(tileMapPosition)
@@ -24,13 +26,13 @@ func _init(tileMapPosition: Vector2):
 	trunkPosition.x = tileMapPosition.x
 	trunkPosition.y = tileMapPosition.y - 1
 	trunkTile = tileMap.getTile(trunkPosition)
-	tileMap.addChildTileConnection(seedTile, trunkTile, 0)
+	tileMap.addChildTileConnection(seedTile, trunkTile, 0, ownerId)
 	
 	var rootPosition: Vector2
 	rootPosition.x = tileMapPosition.x
 	rootPosition.y = tileMapPosition.y + 1
 	rootTile = tileMap.getTile(rootPosition)
-	tileMap.addChildTileConnection(seedTile, rootTile, 1)
+	tileMap.addChildTileConnection(seedTile, rootTile, 1, ownerId)
 
 func _process(delta):
 	# Check due to division

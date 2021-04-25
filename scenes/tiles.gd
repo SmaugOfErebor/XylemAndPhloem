@@ -32,8 +32,8 @@ func _ready():
 	# Generate temporary map
 	tempGenerate()
 	# Add the player and computer trees
-	playerGameTree = GameTree.new(Vector2(3, -1))
-	computerGameTree = GameTree.new(Vector2(19, -1))
+	playerGameTree = GameTree.new(Vector2(3, -1), Globals.OWNER_NONE)
+	computerGameTree = GameTree.new(Vector2(19, -1), Globals.OWNER_COMPUTER)
 	add_child(playerGameTree)
 	add_child(computerGameTree)
 	# Listen for tile presses
@@ -57,11 +57,20 @@ func tilePressed(tile: Tile):
 				for neighbor in neighborTiles:
 					if neighbor == selectedFromTile:
 						# Can make a valid connection (if the to tile has no connections yet)
-						if not tile.hasConnections():
-							addChildTileConnection(selectedFromTile, tile, 0 if selectedFromTile.position.y < 0 else 1)
-							# Clear selection
-							selectedFromTile = null
-							tileSelectHighlight.visible = false
+						if not tile.hasConnections() or (tile.ownerId != Globals.OWNER_NONE and tile.ownerId != selectedFromTile.ownerId):
+							# Check if cost can be OK
+							var cost: int = calculateCost(selectedFromTile, tile)
+							if playerGameTree.getSpendableAsInt() >= cost:
+								# If the tile had an owner (i.e. had connections at this point in the code; checked above)
+								# Then we need to sever that connection of the opponent
+								if tile.hasConnections():
+									tile.remove_connections()
+								# Deduct cost
+								playerGameTree.spendableCurrency -= cost
+								addChildTileConnection(selectedFromTile, tile, 0 if selectedFromTile.position.y < 0 else 1, Globals.OWNER_PLAYER)
+								# Clear selection
+								selectedFromTile = null
+								tileSelectHighlight.visible = false
 							return
 		# No valid connection can be made; cancel selection
 		selectedFromTile = null
@@ -76,14 +85,18 @@ func _physics_process(delta):
 		else:
 			selectedFromTile = null
 
-func addChildTileConnection(fromTile: Tile, toTile: Tile, tileType: int):
+func addChildTileConnection(fromTile: Tile, toTile: Tile, tileType: int, ownerId: int):
 	var newConnection := TileConnection.new(fromTile, toTile, tileType)
 	add_child(newConnection)
 	fromTile.outgoingConnections.append(newConnection)
 	toTile.incomingConnection = newConnection
+	toTile.ownerId = ownerId
 
 func calculateCost(from: Tile, to: Tile) -> int:
-	 return to.getBaseCost() + (from.getLengthFromHere() / 3)
+	var ownerCost: int = 0
+	if to.ownerId != Globals.OWNER_NONE and to.ownerId != from.ownerId:
+		ownerCost = to.get_descendant_tile_count() * 3
+	return to.getBaseCost() + (from.getLengthFromHere() / 3) + ownerCost
 
 func showSelectableNeighbor(highlight: Sprite, tile: Tile, neighbor: Tile):
 	# Start as not selectable
@@ -91,7 +104,7 @@ func showSelectableNeighbor(highlight: Sprite, tile: Tile, neighbor: Tile):
 	# Check if selectable
 	if neighbor == null:
 		return
-	if not (Utils.mySign(tile.position.y) == Utils.mySign(neighbor.position.y) and not neighbor.hasConnections()):
+	if not (Utils.mySign(tile.position.y) == Utils.mySign(neighbor.position.y) and (not neighbor.hasConnections() or (neighbor.ownerId != Globals.OWNER_NONE and neighbor.ownerId != tile.ownerId))):
 		return
 	# It is selectable; see if they have enough $ to buy it
 	var cost: int = calculateCost(tile, neighbor)

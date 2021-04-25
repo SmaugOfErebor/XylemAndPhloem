@@ -3,6 +3,7 @@ class_name Tile
 var tileId: int
 var position: Vector2
 
+var ownerId: int = Globals.OWNER_NONE
 var incomingConnection
 var outgoingConnections = []
 
@@ -12,6 +13,7 @@ func _init(tileId: int, position: Vector2):
 
 func remove_connections():
 	incomingConnection.get_parent().remove_child(incomingConnection)
+	ownerId = Globals.OWNER_NONE
 	for outgoingConnection in outgoingConnections:
 		outgoingConnection.toTile.remove_connections()
 	outgoingConnections = []
@@ -35,5 +37,5 @@ func hasConnections():
 
 func getBaseCost() -> int:
 	if tileId == Globals.TID_ROCK:
-		return 10
-	return 5
+		return 5
+	return 1
