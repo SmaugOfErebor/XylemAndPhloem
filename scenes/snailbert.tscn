@@ -79,7 +79,7 @@ scale = Vector2( 2, 2 )
 z_index = 75
 frames = SubResource( 5 )
 animation = "walk"
-frame = 1
+frame = 2
 playing = true
 script = ExtResource( 1 )
 

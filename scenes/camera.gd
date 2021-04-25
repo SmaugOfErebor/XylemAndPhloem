@@ -22,9 +22,6 @@ func _process(delta):
 	if delta == 0:
 		return
 		
-	if Input.is_action_just_pressed("ui_accept"):
-		shake(1.0)
-		
 	position = realPosition
 	if shakePower > shakeThresh:
 		position += Vector2(rand_range(-shakePower, shakePower), rand_range(-shakePower, shakePower))
@@ -47,6 +44,8 @@ func _input(event):
 		elif event.button_index == BUTTON_WHEEL_DOWN:
 			moveTween.stop_all()
 			realPosition.y += SCROLL_MOVE_SPEED
+	if realPosition.y < topPos:
+		realPosition.y = topPos
 
 func shake(power: float):
 	shakePower += power

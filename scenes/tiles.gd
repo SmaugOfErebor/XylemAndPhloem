@@ -106,6 +106,9 @@ func _physics_process(delta):
 		else:
 			removeSelectionHighlight()
 			
+	for td in tileData.values():
+		td.update(delta)
+			
 func removeSelectionHighlight():
 	selectedFromTile = null
 	tileSelectHighlight.visible = false
@@ -279,7 +282,7 @@ func tempGenerate():
 				# Below ground
 				addTile(Globals.TID_DIRT, Vector2(x, y))
 
-	generatePockets(Globals.TID_WATER, 5, 8, 0, SCREEN_TILE_WIDTH-1, 4, 9, 1, 2)
+	generatePockets(Globals.TID_WATER_MAX, 5, 8, 0, SCREEN_TILE_WIDTH-1, 1, 9, 1, 2)
 	generatePockets(Globals.TID_ENRICHED_DIRT, 6, 8, 0, SCREEN_TILE_WIDTH-1, 1, 9, 1, 3)
 	generatePockets(Globals.TID_ROCK, 2, 3, 0, SCREEN_TILE_WIDTH-1, 4, 7, 1, 1)
 
