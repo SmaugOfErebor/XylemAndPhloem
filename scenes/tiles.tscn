@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scenes/cos_sel.tscn" type="PackedScene" id=2]
+[ext_resource path="res://resources/tileset.tres" type="TileSet" id=3]
+[ext_resource path="res://scenes/tiles.gd" type="Script" id=5]
+[ext_resource path="res://images/tile_outline_white.png" type="Texture" id=6]
+
+[node name="tiles" type="TileMap"]
+position = Vector2( 0, 495 )
+tile_set = ExtResource( 3 )
+cell_size = Vector2( 44, 50 )
+cell_half_offset = 1
+format = 1
+script = ExtResource( 5 )
+
+[node name="tile_highlight" type="Sprite" parent="."]
+visible = false
+z_index = 100
+texture = ExtResource( 6 )
+centered = false
+
+[node name="tile_select_highlight" type="Sprite" parent="."]
+visible = false
+self_modulate = Color( 0, 0.929412, 1, 1 )
+z_index = 99
+texture = ExtResource( 6 )
+centered = false
+
+[node name="ct" parent="tile_select_highlight" instance=ExtResource( 2 )]
+
+[node name="rt" parent="tile_select_highlight" instance=ExtResource( 2 )]
+position = Vector2( 44, -25 )
+
+[node name="rb" parent="tile_select_highlight" instance=ExtResource( 2 )]
+position = Vector2( 44, 25 )
+
+[node name="cb" parent="tile_select_highlight" instance=ExtResource( 2 )]
+position = Vector2( 0, 50 )
+
+[node name="lb" parent="tile_select_highlight" instance=ExtResource( 2 )]
+position = Vector2( -44, 25 )
+
+[node name="lt" parent="tile_select_highlight" instance=ExtResource( 2 )]
+position = Vector2( -44, -25 )

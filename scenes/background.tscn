@@ -1,12 +1,10 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=32 format=2]
 
-[ext_resource path="res://resources/tileset.tres" type="TileSet" id=1]
+[ext_resource path="res://resources/font_outlined_big.tres" type="DynamicFont" id=1]
 [ext_resource path="res://scenes/root_2d.gd" type="Script" id=2]
 [ext_resource path="res://scenes/camera.gd" type="Script" id=3]
-[ext_resource path="res://scenes/tiles.gd" type="Script" id=4]
-[ext_resource path="res://scenes/cos_sel.tscn" type="PackedScene" id=5]
+[ext_resource path="res://resources/basic_theme.tres" type="Theme" id=4]
 [ext_resource path="res://scenes/currency_display.gd" type="Script" id=6]
-[ext_resource path="res://images/tile_outline_white.png" type="Texture" id=7]
 [ext_resource path="res://scenes/snailbert.tscn" type="PackedScene" id=8]
 [ext_resource path="res://images/unspendable_icon.png" type="Texture" id=9]
 [ext_resource path="res://images/spendable_icon.png" type="Texture" id=10]
@@ -20,7 +18,24 @@
 [ext_resource path="res://sounds/snailbert_toms.ogg" type="AudioStream" id=18]
 [ext_resource path="res://scenes/snailbert_toms_player.gd" type="Script" id=19]
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="Animation" id=1]
+resource_name = "title_bounce"
+length = 4.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("title_label_container/title_label:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -20 ), Vector2( 0, 0 ), Vector2( 0, 20 ) ]
+}
+
+[sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0, 0, 0, 0.682353 )
 border_color = Color( 0, 0, 0, 1 )
 corner_radius_top_left = 5
@@ -29,58 +44,58 @@ corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 corner_detail = 20
 
-[sub_resource type="AtlasTexture" id=2]
+[sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 11 )
 region = Rect2( 160, 0, 16, 16 )
 
-[sub_resource type="AtlasTexture" id=3]
+[sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 11 )
 region = Rect2( 0, 0, 16, 16 )
 
-[sub_resource type="AtlasTexture" id=4]
+[sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 11 )
 region = Rect2( 16, 0, 16, 16 )
 
-[sub_resource type="AtlasTexture" id=5]
+[sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 11 )
 region = Rect2( 32, 0, 16, 16 )
 
-[sub_resource type="AtlasTexture" id=6]
+[sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 11 )
 region = Rect2( 48, 0, 16, 16 )
 
-[sub_resource type="AtlasTexture" id=7]
+[sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 11 )
 region = Rect2( 64, 0, 16, 16 )
 
-[sub_resource type="AtlasTexture" id=8]
+[sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 11 )
 region = Rect2( 80, 0, 16, 16 )
 
-[sub_resource type="AtlasTexture" id=9]
+[sub_resource type="AtlasTexture" id=10]
 atlas = ExtResource( 11 )
 region = Rect2( 96, 0, 16, 16 )
 
-[sub_resource type="AtlasTexture" id=10]
+[sub_resource type="AtlasTexture" id=11]
 atlas = ExtResource( 11 )
 region = Rect2( 112, 0, 16, 16 )
 
-[sub_resource type="AtlasTexture" id=11]
+[sub_resource type="AtlasTexture" id=12]
 atlas = ExtResource( 11 )
 region = Rect2( 128, 0, 16, 16 )
 
-[sub_resource type="AtlasTexture" id=12]
+[sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 11 )
 region = Rect2( 144, 0, 16, 16 )
 
-[sub_resource type="SpriteFrames" id=13]
+[sub_resource type="SpriteFrames" id=14]
 animations = [ {
-"frames": [ SubResource( 2 ) ],
+"frames": [ SubResource( 3 ) ],
 "loop": false,
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
+"frames": [ SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ) ],
 "loop": false,
 "name": "flow",
 "speed": 30.0
@@ -153,49 +168,74 @@ script = ExtResource( 3 )
 
 [node name="move_tween" type="Tween" parent="root_2d/camera"]
 
-[node name="tiles" type="TileMap" parent="root_2d"]
-position = Vector2( 0, 495 )
-tile_set = ExtResource( 1 )
-cell_size = Vector2( 44, 50 )
-cell_half_offset = 1
-format = 1
-script = ExtResource( 4 )
+[node name="tiles_container" type="Node2D" parent="root_2d"]
 
-[node name="tile_highlight" type="Sprite" parent="root_2d/tiles"]
-visible = false
-z_index = 100
-texture = ExtResource( 7 )
-centered = false
+[node name="title_screen" type="Node2D" parent="root_2d"]
 
-[node name="tile_select_highlight" type="Sprite" parent="root_2d/tiles"]
-visible = false
-self_modulate = Color( 0, 0.929412, 1, 1 )
-z_index = 99
-texture = ExtResource( 7 )
-centered = false
+[node name="title_label_container" type="Control" parent="root_2d/title_screen"]
+margin_left = 330.0
+margin_top = 64.0
+margin_right = 330.0
+margin_bottom = 64.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="ct" parent="root_2d/tiles/tile_select_highlight" instance=ExtResource( 5 )]
+[node name="title_label" type="Label" parent="root_2d/title_screen/title_label_container"]
+margin_top = -13.4421
+margin_right = 440.0
+margin_bottom = 298.558
+custom_fonts/font = ExtResource( 1 )
+text = "Xylem
+and
+Phloem"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="rt" parent="root_2d/tiles/tile_select_highlight" instance=ExtResource( 5 )]
-position = Vector2( 44, -25 )
+[node name="title_anim_player" type="AnimationPlayer" parent="root_2d/title_screen"]
+playback_speed = 0.5
+anims/title_bounce = SubResource( 1 )
 
-[node name="rb" parent="root_2d/tiles/tile_select_highlight" instance=ExtResource( 5 )]
-position = Vector2( 44, 25 )
+[node name="authors" type="Label" parent="root_2d/title_screen"]
+margin_left = 7.0
+margin_top = 580.0
+margin_right = 690.0
+margin_bottom = 594.0
+custom_fonts/font = ExtResource( 13 )
+text = "created  in under 72 hours for Ludum Dare 48 by SmaugOfErebor and CodeNMore"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="cb" parent="root_2d/tiles/tile_select_highlight" instance=ExtResource( 5 )]
-position = Vector2( 0, 50 )
+[node name="btn_control" type="Control" parent="root_2d/title_screen"]
+margin_right = 40.0
+margin_bottom = 40.0
+theme = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="lb" parent="root_2d/tiles/tile_select_highlight" instance=ExtResource( 5 )]
-position = Vector2( -44, 25 )
+[node name="play_btn" type="Button" parent="root_2d/title_screen/btn_control"]
+margin_left = 431.0
+margin_top = 422.0
+margin_right = 614.0
+margin_bottom = 479.0
+text = "PLAY"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="lt" parent="root_2d/tiles/tile_select_highlight" instance=ExtResource( 5 )]
-position = Vector2( -44, -25 )
+[node name="snails" type="Node2D" parent="root_2d"]
 
-[node name="snailbert" parent="root_2d/tiles" instance=ExtResource( 8 )]
-position = Vector2( -32, -11 )
+[node name="snailbert" parent="root_2d/snails" instance=ExtResource( 8 )]
+position = Vector2( -46, 482 )
+frame = 2
 
-[node name="snailbert2" parent="root_2d/tiles" instance=ExtResource( 8 )]
-position = Vector2( 133, -11 )
+[node name="snailbert2" parent="root_2d/snails" instance=ExtResource( 8 )]
+position = Vector2( 1090, 482 )
 frame = 1
 isMate = true
 dir = -1
@@ -209,7 +249,7 @@ margin_left = 5.0
 margin_top = 5.0
 margin_right = 1.39999
 margin_bottom = 7.0
-custom_styles/panel = SubResource( 1 )
+custom_styles/panel = SubResource( 2 )
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -254,7 +294,7 @@ __meta__ = {
 [node name="anim" type="AnimatedSprite" parent="fg/currency_display/conversion_control"]
 modulate = Color( 0.00392157, 0.490196, 0, 1 )
 position = Vector2( 11, 11 )
-frames = SubResource( 13 )
+frames = SubResource( 14 )
 animation = "flow"
 frame = 9
 playing = true
@@ -317,4 +357,5 @@ custom_fonts/font = ExtResource( 13 )
 text = "+??"
 align = 2
 
+[connection signal="pressed" from="root_2d/title_screen/btn_control/play_btn" to="root_2d" method="_on_play_btn_pressed"]
 [connection signal="animation_finished" from="fg/currency_display/conversion_control/anim" to="fg/currency_display" method="_on_anim_animation_finished"]

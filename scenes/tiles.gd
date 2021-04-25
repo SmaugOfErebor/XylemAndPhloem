@@ -42,7 +42,7 @@ func _ready():
 	connect("game_over", self, "onGameOver")
 	
 func onGameOver(won: bool):
-	print("GAME OVER: " + str(won))
+	Globals.get_root2d().showTitleScreen()
 	
 # When the user clicks a tile
 func tilePressed(tile: Tile):

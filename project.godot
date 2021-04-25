@@ -67,6 +67,10 @@ Utils="*res://autoloads/utils.gd"
 Globals="*res://autoloads/globals.gd"
 Audio="*res://autoloads/audio.gd"
 
+[display]
+
+window/size/resizable=false
+
 [global]
 
 wind=false

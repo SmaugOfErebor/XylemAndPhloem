@@ -17,11 +17,14 @@ const OWNER_COMPUTER: int = 2
 
 signal player_currency_converted()
 
+func get_root2d() -> Root2D:
+	return get_tree().get_root().get_node("root_node").get_node("root_2d") as Root2D
+
 func get_tiles() -> TileMap:
-	 return get_tree().get_root().get_node("root_node").get_node("root_2d").get_node("tiles") as TileMap
+	 return get_root2d().get_tiles()
 
 func get_camera() -> GameCam:
-	return get_tree().get_root().get_node("root_node").get_node("root_2d").get_node("camera") as GameCam
+	return get_root2d().get_node("camera") as GameCam
 
 func get_snailbert() -> AnimatedSprite:
-	return get_tree().get_root().get_node("root_node").get_node("root_2d").get_node("tiles").get_node("snailbert") as AnimatedSprite
+	return get_root2d().get_node("snails").get_node("snailbert") as AnimatedSprite
