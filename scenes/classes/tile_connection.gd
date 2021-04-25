@@ -1,6 +1,9 @@
 class_name TileConnection
 extends Line2D
 
+const plRootNoise: Texture = preload("res://images/root_noise.png")
+const plTrunkNoise: Texture = preload("res://images/trunk_noise.png")
+
 enum lineTypes {
 	branch,
 	root
@@ -24,10 +27,14 @@ func _init(fromTile: Tile, toTile: Tile, lineType: int):
 	begin_cap_mode = Line2D.LINE_CAP_ROUND
 	end_cap_mode = Line2D.LINE_CAP_ROUND
 	
-	if lineType == lineTypes.branch:
-		default_color = Color(.29, .16, .04, 1.0)
-	else:
-		default_color = Color(.88, .67, .47, 1.0)
+	default_color = Color.white
+	#if lineType == lineTypes.branch:
+	#	default_color = Color(.29, .16, .04, 1.0)
+	#else:
+	#	default_color = Color(.88, .67, .47, 1.0)
+		
+	texture_mode = Line2D.LINE_TEXTURE_TILE
+	texture = plRootNoise if lineType == lineTypes.root else plTrunkNoise
 	
 	# Store the termination position to draw a leaf at
 	terminationPosition = Globals.get_tiles().getCenterPixelPosition(toTile)
