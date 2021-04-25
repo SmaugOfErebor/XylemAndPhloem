@@ -67,6 +67,7 @@ func attemptToGrow(treeUser, from: Tile, to: Tile) -> bool:
 		# Then we need to sever that connection of the opponent
 		if to.hasConnections():
 			to.remove_connections()
+			Audio.playSnipSound()
 		# Deduct cost (already verified they can pay)
 		var cost: int = calculateCost(from, to)
 		treeUser.spendableCurrency -= cost
