@@ -14,15 +14,23 @@ export var shakeLimit: float = 6.0
 
 var shakePower: float = 0.0
 var realPosition := Vector2()
+var locked := false
 
 func _ready():
 	realPosition = position
 
+func lock():
+	locked = true
+	
+func unlock():
+	locked = false
+
 func _process(delta):
-	if delta == 0:
+	position = realPosition
+	
+	if delta == 0 or locked:
 		return
 		
-	position = realPosition
 	if shakePower > shakeThresh:
 		position += Vector2(rand_range(-shakePower, shakePower), rand_range(-shakePower, shakePower))
 		shakePower -= shakePower * shakeDecay
