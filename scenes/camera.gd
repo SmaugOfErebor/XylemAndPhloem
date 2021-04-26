@@ -45,7 +45,7 @@ func _process(delta):
 		moveToTop()
 		
 func _input(event):
-	if event is InputEventMouseButton and event.is_pressed():
+	if event is InputEventMouseButton and event.is_pressed() and not locked:
 		if event.button_index == BUTTON_WHEEL_UP:
 			moveTween.stop_all()
 			realPosition.y -= SCROLL_MOVE_SPEED

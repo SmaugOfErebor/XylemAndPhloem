@@ -10,6 +10,7 @@ onready var gameOverScreen: Node2D = $game_over_screen
 onready var gameOverWon: Label = $game_over_screen/won_label
 onready var gameOverLost: Label = $game_over_screen/lost_label
 onready var tutScreen: Node2D = $tutorial_screen
+onready var restartConfirm: Control = $"../fg/restart_confirm"
 
 func _ready():
 	showTitleScreen()
@@ -20,6 +21,7 @@ func resetScreens():
 	gameOverScreen.visible = false
 	currencyDisplay.visible = false
 	tutScreen.visible = false
+	restartConfirm.visible = false
 	$camera.moveToTop()
 	$camera.lock()
 	removeTilesIfNeeded()
@@ -56,4 +58,13 @@ func _on_play_btn_pressed():
 	showTutorialScreen()
 
 func _on_menu_btn_pressed():
+	showTitleScreen()
+
+func _on_restart_button_pressed():
+	restartConfirm.visible = not restartConfirm.visible
+
+func _on_restart_no_pressed():
+	restartConfirm.visible = false
+
+func _on_restart_yes_pressed():
 	showTitleScreen()
