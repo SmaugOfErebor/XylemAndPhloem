@@ -313,11 +313,10 @@ __meta__ = {
 
 [node name="snailbert" parent="root_2d/snails" instance=ExtResource( 8 )]
 position = Vector2( -46, 482 )
-frame = 2
 
 [node name="snailbert2" parent="root_2d/snails" instance=ExtResource( 8 )]
 position = Vector2( 1090, 482 )
-frame = 1
+frame = 3
 isMate = true
 dir = -1
 
@@ -491,7 +490,6 @@ script = ExtResource( 22 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
 [connection signal="pressed" from="root_2d/title_screen/btn_control/play_btn" to="root_2d" method="_on_play_btn_pressed"]
 [connection signal="pressed" from="root_2d/game_over_screen/btn_control/menu_btn" to="root_2d" method="_on_menu_btn_pressed"]
 [connection signal="animation_finished" from="fg/currency_display/conversion_control/anim" to="fg/currency_display" method="_on_anim_animation_finished"]
