@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://resources/font_outlined_big.tres" type="DynamicFont" id=1]
 [ext_resource path="res://scenes/root_2d.gd" type="Script" id=2]
@@ -23,6 +23,9 @@
 [ext_resource path="res://scenes/music_toggle_button.gd" type="Script" id=21]
 [ext_resource path="res://scenes/sound_effect_toggle_button.gd" type="Script" id=22]
 [ext_resource path="res://sounds/select.wav" type="AudioStream" id=23]
+[ext_resource path="res://images/root_noise.png" type="Texture" id=24]
+[ext_resource path="res://images/snailbert.png" type="Texture" id=25]
+[ext_resource path="res://scenes/tutorial_screen.gd" type="Script" id=26]
 
 [sub_resource type="Animation" id=1]
 resource_name = "title_bounce"
@@ -321,6 +324,49 @@ frame = 1
 isMate = true
 dir = -1
 
+[node name="tutorial_screen" type="Node2D" parent="root_2d"]
+script = ExtResource( 26 )
+
+[node name="images" type="Node2D" parent="root_2d/tutorial_screen"]
+
+[node name="img" type="Sprite" parent="root_2d/tutorial_screen/images"]
+position = Vector2( 511, 255 )
+scale = Vector2( 111, 50.875 )
+texture = ExtResource( 24 )
+
+[node name="img2" type="Sprite" parent="root_2d/tutorial_screen/images"]
+position = Vector2( 514, 253 )
+scale = Vector2( 10.0476, 35.0688 )
+texture = ExtResource( 25 )
+
+[node name="btn_control" type="Control" parent="root_2d/tutorial_screen"]
+margin_right = 40.0
+margin_bottom = 40.0
+theme = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="next_btn" type="Button" parent="root_2d/tutorial_screen/btn_control"]
+margin_left = 429.0
+margin_top = 534.0
+margin_right = 612.0
+margin_bottom = 591.0
+text = "NEXT"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="skip_btn" type="Button" parent="root_2d/tutorial_screen/btn_control"]
+margin_left = 8.0
+margin_top = 558.0
+margin_right = 95.0
+margin_bottom = 592.0
+text = "SKIP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="fg" type="CanvasLayer" parent="."]
 
 [node name="currency_display" type="Panel" parent="fg"]
@@ -494,6 +540,8 @@ __meta__ = {
 
 [connection signal="pressed" from="root_2d/title_screen/btn_control/play_btn" to="root_2d" method="_on_play_btn_pressed"]
 [connection signal="pressed" from="root_2d/game_over_screen/btn_control/menu_btn" to="root_2d" method="_on_menu_btn_pressed"]
+[connection signal="pressed" from="root_2d/tutorial_screen/btn_control/next_btn" to="root_2d/tutorial_screen" method="_on_next_btn_pressed"]
+[connection signal="pressed" from="root_2d/tutorial_screen/btn_control/skip_btn" to="root_2d/tutorial_screen" method="_on_skip_btn_pressed"]
 [connection signal="animation_finished" from="fg/currency_display/conversion_control/anim" to="fg/currency_display" method="_on_anim_animation_finished"]
 [connection signal="pressed" from="fg/mute_buttons/music_toggle_button" to="fg/mute_buttons/music_toggle_button" method="_on_music_toggle_button_pressed"]
 [connection signal="pressed" from="fg/mute_buttons/sound_effect_toggle_button" to="fg/mute_buttons/sound_effect_toggle_button" method="_on_sound_effect_toggle_button_pressed"]
