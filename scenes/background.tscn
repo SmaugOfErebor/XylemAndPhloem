@@ -373,8 +373,8 @@ __meta__ = {
 
 [node name="skip_btn" type="Button" parent="root_2d/tutorial_screen/btn_control"]
 margin_left = 8.0
-margin_top = 558.0
-margin_right = 95.0
+margin_top = 545.0
+margin_right = 110.0
 margin_bottom = 592.0
 text = "SKIP"
 __meta__ = {
