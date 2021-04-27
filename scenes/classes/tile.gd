@@ -53,9 +53,9 @@ func _init(tileId: int, position: Vector2):
 	self.position = position
 
 func remove_connections(removeFromParentOutgoing: bool = true):
-	if Globals.get_tiles().playerGameTree.rootTile == self:
+	if Globals.get_tiles().playerGameTree.rootTile == self or Globals.get_tiles().playerGameTree.trunkTile == self:
 		Globals.get_tiles().emit_signal("game_over", false)
-	elif Globals.get_tiles().computerGameTree.rootTile == self:
+	elif Globals.get_tiles().computerGameTree.rootTile == self or Globals.get_tiles().computerGameTree.trunkTile == self:
 		Globals.get_tiles().emit_signal("game_over", true)
 		
 	Globals.get_camera().shake(get_descendant_tile_count())
