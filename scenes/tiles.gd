@@ -150,10 +150,6 @@ func addChildTileConnection(fromTile: Tile, toTile: Tile, tileType: int, ownerId
 	toTile.incomingConnection = newConnection
 	toTile.ownerId = ownerId
 	
-	# If first root, color it differently for opponent's tree
-	if ownerId == Globals.OWNER_COMPUTER and not fromTile.incomingConnection:
-		newConnection.self_modulate = Color.brown
-	
 	if tileType == 0:
 		newConnection.add_leaf()
 		if fromTile.incomingConnection != null:
