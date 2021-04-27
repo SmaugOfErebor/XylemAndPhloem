@@ -15,6 +15,10 @@ const OWNER_NONE: int = 0
 const OWNER_PLAYER: int = 1
 const OWNER_COMPUTER: int = 2
 
+const AI_EASY: int = 0
+const AI_MED: int = 1
+const AI_HARD: int = 2
+
 signal player_currency_converted()
 
 func get_root2d() -> Root2D:

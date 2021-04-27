@@ -48,7 +48,7 @@ func _ready():
 	add_child(playerGameTree)
 	add_child(computerGameTree)
 	# Start with super dumb ai
-	ai = DumbAI.new(computerGameTree, 0.3)
+	ai = DumbAI.new(computerGameTree, Globals.AI_EASY)
 	# Listen for tile presses
 	connect("tile_pressed", self, "tilePressed")
 	connect("game_over", self, "onGameOver")
@@ -175,6 +175,19 @@ func reevaluateSunlight(tile: Tile):
 		if currentTile.hasLeaf:
 			currentTile.incomingConnection.reevaluateLeaf(numLeaves)
 			numLeaves += 1
+
+func getNumLeavesBelowTile(tile: Tile, ownerId: int) -> int:
+	var numLeaves: int = 0
+	for i in range(tile.position.y + 1, 0):
+		# Skip the blank tiles at the bottom
+		if int(tile.position.x) % 2 == 1 and i == -1:
+			continue
+		
+		var check = getTile(Vector2(tile.position.x, i))
+		if check.ownerId == ownerId and check.hasLeaf:
+			numLeaves += 1
+
+	return numLeaves
 
 func calculateCost(from: Tile, to: Tile) -> int:
 	var ownerCost: int = 0
