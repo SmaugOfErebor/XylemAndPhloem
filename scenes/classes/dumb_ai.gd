@@ -31,17 +31,17 @@ func update(delta: float):
 			if growDelayTime < 0.2:
 				return
 	
-	var startTile = tree.rootTile
-	match aiLevel:
-		Globals.AI_EASY:
-			if tree.unspendablePerSec - 1.0 > tree.spendablePerSec:
-				startTile = tree.trunkTile
-		Globals.AI_MED:
-			if tree.unspendablePerSec - 0.5 > tree.spendablePerSec:
-				startTile = tree.trunkTile
-		Globals.AI_HARD:
-			if tree.unspendablePerSec > tree.spendablePerSec:
-				startTile = tree.trunkTile
+	var startTile = tree.rootTile if randf() < 0.4 else tree.trunkTile
+#	match aiLevel:
+#		Globals.AI_EASY:
+#			if tree.unspendablePerSec - 1.0 > tree.spendablePerSec:
+#				startTile = tree.trunkTile
+#		Globals.AI_MED:
+#			if tree.unspendablePerSec - 0.5 > tree.spendablePerSec:
+#				startTile = tree.trunkTile
+#		Globals.AI_HARD:
+#			if tree.unspendablePerSec > tree.spendablePerSec:
+#				startTile = tree.trunkTile
 	
 	var allMoves: Array = getAllPossibleMoves(startTile, [])
 	var randMostUndesireable: Move = getRandomMinUndesireable(allMoves)
