@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://resources/font_outlined_big.tres" type="DynamicFont" id=1]
 [ext_resource path="res://scenes/root_2d.gd" type="Script" id=2]
@@ -23,11 +23,14 @@
 [ext_resource path="res://scenes/music_toggle_button.gd" type="Script" id=21]
 [ext_resource path="res://scenes/sound_effect_toggle_button.gd" type="Script" id=22]
 [ext_resource path="res://sounds/select.wav" type="AudioStream" id=23]
-[ext_resource path="res://images/root_noise.png" type="Texture" id=24]
-[ext_resource path="res://images/snailbert.png" type="Texture" id=25]
+[ext_resource path="res://images/tutorial_slides/slide_root.png" type="Texture" id=24]
+[ext_resource path="res://images/tutorial_slides/slide_leaf.png" type="Texture" id=25]
 [ext_resource path="res://scenes/tutorial_screen.gd" type="Script" id=26]
 [ext_resource path="res://images/menu_icon.png" type="Texture" id=27]
 [ext_resource path="res://resources/font_outlined.tres" type="DynamicFont" id=28]
+[ext_resource path="res://images/tutorial_slides/slide_victory.png" type="Texture" id=29]
+[ext_resource path="res://images/tutorial_slides/slide_balance.png" type="Texture" id=30]
+[ext_resource path="res://images/tutorial_slides/slide_intro.png" type="Texture" id=31]
 
 [sub_resource type="Animation" id=1]
 resource_name = "title_bounce"
@@ -318,11 +321,10 @@ __meta__ = {
 
 [node name="snailbert" parent="root_2d/snails" instance=ExtResource( 8 )]
 position = Vector2( -46, 482 )
-frame = 3
+frame = 1
 
 [node name="snailbert2" parent="root_2d/snails" instance=ExtResource( 8 )]
 position = Vector2( 1090, 482 )
-frame = 2
 isMate = true
 dir = -1
 
@@ -331,15 +333,25 @@ script = ExtResource( 26 )
 
 [node name="images" type="Node2D" parent="root_2d/tutorial_screen"]
 
-[node name="img" type="Sprite" parent="root_2d/tutorial_screen/images"]
+[node name="tutorial_intro" type="Sprite" parent="root_2d/tutorial_screen/images"]
 position = Vector2( 511, 255 )
-scale = Vector2( 111, 50.875 )
+texture = ExtResource( 31 )
+
+[node name="tutorial_root" type="Sprite" parent="root_2d/tutorial_screen/images"]
+position = Vector2( 514, 253 )
 texture = ExtResource( 24 )
 
-[node name="img2" type="Sprite" parent="root_2d/tutorial_screen/images"]
+[node name="tutorial_leaf" type="Sprite" parent="root_2d/tutorial_screen/images"]
 position = Vector2( 514, 253 )
-scale = Vector2( 10.0476, 35.0688 )
 texture = ExtResource( 25 )
+
+[node name="tutorial_balance" type="Sprite" parent="root_2d/tutorial_screen/images"]
+position = Vector2( 514, 253 )
+texture = ExtResource( 30 )
+
+[node name="tutorial_victory" type="Sprite" parent="root_2d/tutorial_screen/images"]
+position = Vector2( 514, 253 )
+texture = ExtResource( 29 )
 
 [node name="btn_control" type="Control" parent="root_2d/tutorial_screen"]
 margin_right = 40.0
