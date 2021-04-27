@@ -1,8 +1,6 @@
 class_name DumbAI
 extends AI
 
-const GROW_DELAY_TIMEOUT: float = 1.0
-
 var tree: GameTree
 var growVsRootLikelihood: float = 0.3
 var growDelayTime: float = 0.0
@@ -15,8 +13,16 @@ func _init(tree: GameTree, aiLevel: int):
 
 func update(delta: float):
 	growDelayTime += delta
-	if growDelayTime < GROW_DELAY_TIMEOUT:
-		return
+	match aiLevel:
+		Globals.AI_EASY:
+			if growDelayTime < 1.0:
+				return
+		Globals.AI_MED:
+			if growDelayTime < 0.5:
+				return
+		Globals.AI_HARD:
+			if growDelayTime < 0.2:
+				return
 	
 	var startTile = tree.rootTile
 	match aiLevel:
