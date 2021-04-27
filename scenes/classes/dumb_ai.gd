@@ -1,8 +1,6 @@
 class_name DumbAI
 extends AI
 
-const GROW_DELAY_TIMEOUT: float = 1.0
-
 var tree: GameTree
 var growVsRootLikelihood: float = 0.3
 var growDelayTime: float = 0.0
@@ -12,13 +10,40 @@ var aiLevel: int = 0
 func _init(tree: GameTree, aiLevel: int):
 	self.tree = tree
 	self.aiLevel = aiLevel
+	match aiLevel:
+		Globals.AI_EASY:
+			pass
+		Globals.AI_MED:
+			tree.spendableCurrency += 5
+		Globals.AI_HARD:
+			tree.spendableCurrency += 10
 
 func update(delta: float):
 	growDelayTime += delta
-	if growDelayTime < GROW_DELAY_TIMEOUT:
-		return
+	match aiLevel:
+		Globals.AI_EASY:
+			if growDelayTime < 1.0:
+				return
+		Globals.AI_MED:
+			if growDelayTime < 0.5:
+				return
+		Globals.AI_HARD:
+			if growDelayTime < 0.2:
+				return
 	
-	var allMoves: Array = getAllPossibleMoves(tree.trunkTile if randf() < growVsRootLikelihood else tree.rootTile, [])
+	var startTile = tree.rootTile
+	match aiLevel:
+		Globals.AI_EASY:
+			if tree.unspendablePerSec - 1.0 > tree.spendablePerSec:
+				startTile = tree.trunkTile
+		Globals.AI_MED:
+			if tree.unspendablePerSec - 0.5 > tree.spendablePerSec:
+				startTile = tree.trunkTile
+		Globals.AI_HARD:
+			if tree.unspendablePerSec > tree.spendablePerSec:
+				startTile = tree.trunkTile
+	
+	var allMoves: Array = getAllPossibleMoves(startTile, [])
 	var randMostUndesireable: Move = getRandomMinUndesireable(allMoves)
 	if randMostUndesireable:
 		Globals.get_tiles().attemptToGrow(tree, randMostUndesireable.fromTile, randMostUndesireable.toTile)
@@ -125,7 +150,7 @@ class Move:
 					Globals.AI_EASY:
 						pass
 					Globals.AI_MED:
-						ret -= 2
+						ret -= cost
 					Globals.AI_HARD:
-						ret -= cost / 2
+						ret -= (cost + 5)
 		return ret
