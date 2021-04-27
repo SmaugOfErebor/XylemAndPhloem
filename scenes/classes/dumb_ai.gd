@@ -10,6 +10,13 @@ var aiLevel: int = 0
 func _init(tree: GameTree, aiLevel: int):
 	self.tree = tree
 	self.aiLevel = aiLevel
+	match aiLevel:
+		Globals.AI_EASY:
+			pass
+		Globals.AI_MED:
+			tree.spendableCurrency += 5
+		Globals.AI_HARD:
+			tree.spendableCurrency += 10
 
 func update(delta: float):
 	growDelayTime += delta
