@@ -125,7 +125,7 @@ class Move:
 					Globals.AI_EASY:
 						pass
 					Globals.AI_MED:
-						ret -= 2
+						ret -= cost
 					Globals.AI_HARD:
-						ret -= cost / 2
+						ret -= (cost + 5)
 		return ret

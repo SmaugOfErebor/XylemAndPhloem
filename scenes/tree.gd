@@ -6,11 +6,11 @@ var tileMapPosition: Vector2
 var trunkTile: Tile
 var rootTile: Tile
 
-const UNSPENDABLE_CURRENCY_RATE: float = 0.075
+const UNSPENDABLE_CURRENCY_RATE: float = 0.05
 const LEAF_STRENGTH: float = 0.2
 
 var unspendableCurrency: float = 0.0
-var spendableCurrency: float = 10.0
+var spendableCurrency: float = 2.0
 var spendablePerSec: float = 0.0
 var unspendablePerSec: float = 0.0
 var ownerId: int = Globals.OWNER_NONE
