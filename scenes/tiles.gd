@@ -48,7 +48,7 @@ func _ready():
 	add_child(playerGameTree)
 	add_child(computerGameTree)
 	# Start with super dumb ai
-	ai = DumbAI.new(computerGameTree, Globals.AI_EASY)
+	ai = DumbAI.new(computerGameTree, Globals.curAiLevel)
 	# Listen for tile presses
 	connect("tile_pressed", self, "tilePressed")
 	connect("game_over", self, "onGameOver")
