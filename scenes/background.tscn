@@ -209,7 +209,6 @@ script = ExtResource( 3 )
 [node name="tiles_container" type="Node2D" parent="root_2d"]
 
 [node name="title_screen" type="Node2D" parent="root_2d"]
-visible = false
 
 [node name="title_label_container" type="Control" parent="root_2d/title_screen"]
 margin_left = 302.0
@@ -258,11 +257,31 @@ __meta__ = {
 }
 
 [node name="play_btn" type="Button" parent="root_2d/title_screen/btn_control"]
+margin_left = 110.0
+margin_top = 422.0
+margin_right = 293.0
+margin_bottom = 479.0
+text = "PLAY EASY"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="play_btn_med" type="Button" parent="root_2d/title_screen/btn_control"]
 margin_left = 414.0
 margin_top = 422.0
 margin_right = 597.0
 margin_bottom = 479.0
-text = "PLAY"
+text = "PLAY MEDIUM"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="play_btn_hard" type="Button" parent="root_2d/title_screen/btn_control"]
+margin_left = 721.0
+margin_top = 422.0
+margin_right = 904.0
+margin_bottom = 479.0
+text = "PLAY HARD"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -321,14 +340,16 @@ __meta__ = {
 
 [node name="snailbert" parent="root_2d/snails" instance=ExtResource( 8 )]
 position = Vector2( -46, 482 )
-frame = 1
+frame = 2
 
 [node name="snailbert2" parent="root_2d/snails" instance=ExtResource( 8 )]
 position = Vector2( 1090, 482 )
+frame = 1
 isMate = true
 dir = -1
 
 [node name="tutorial_screen" type="Node2D" parent="root_2d"]
+visible = false
 script = ExtResource( 26 )
 
 [node name="images" type="Node2D" parent="root_2d/tutorial_screen"]
@@ -613,6 +634,8 @@ __meta__ = {
 }
 
 [connection signal="pressed" from="root_2d/title_screen/btn_control/play_btn" to="root_2d" method="_on_play_btn_pressed"]
+[connection signal="pressed" from="root_2d/title_screen/btn_control/play_btn_med" to="root_2d" method="_on_play_btn_med_pressed"]
+[connection signal="pressed" from="root_2d/title_screen/btn_control/play_btn_hard" to="root_2d" method="_on_play_btn_hard_pressed"]
 [connection signal="pressed" from="root_2d/game_over_screen/btn_control/menu_btn" to="root_2d" method="_on_menu_btn_pressed"]
 [connection signal="pressed" from="root_2d/tutorial_screen/btn_control/next_btn" to="root_2d/tutorial_screen" method="_on_next_btn_pressed"]
 [connection signal="pressed" from="root_2d/tutorial_screen/btn_control/skip_btn" to="root_2d/tutorial_screen" method="_on_skip_btn_pressed"]

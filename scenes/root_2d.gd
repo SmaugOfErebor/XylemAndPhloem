@@ -54,9 +54,6 @@ func playNewGame():
 	currencyDisplay.visible = true
 	$camera.unlock()
 
-func _on_play_btn_pressed():
-	showTutorialScreen()
-
 func _on_menu_btn_pressed():
 	showTitleScreen()
 
@@ -68,3 +65,15 @@ func _on_restart_no_pressed():
 
 func _on_restart_yes_pressed():
 	showTitleScreen()
+
+func _on_play_btn_pressed():
+	Globals.curAiLevel = Globals.AI_EASY
+	showTutorialScreen()
+
+func _on_play_btn_med_pressed():
+	Globals.curAiLevel = Globals.AI_MED
+	showTutorialScreen()
+
+func _on_play_btn_hard_pressed():
+	Globals.curAiLevel = Globals.AI_HARD
+	showTutorialScreen()

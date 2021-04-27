@@ -19,6 +19,8 @@ const AI_EASY: int = 0
 const AI_MED: int = 1
 const AI_HARD: int = 2
 
+var curAiLevel: int = 0
+
 signal player_currency_converted()
 
 func get_root2d() -> Root2D:
